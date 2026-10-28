@@ -649,17 +649,20 @@ thead { background: rgba(18,32,43,0.03); }
 /* Intake V2 Styles */
 .intake-v2-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--mainter-bg) 0%, #ffffff 100%);
-  padding: 22px;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(to bottom right, #ffffff 60%, #003b5b 40%);
+  padding: 22px;
 }
 
 .intake-v2-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
+  padding: 20px 24px;
+  position: relative;
+  z-index: 2;
 }
 
 .intake-logo-wrapper {
@@ -678,33 +681,40 @@ thead { background: rgba(18,32,43,0.03); }
   width: 100%;
   max-width: 480px;
   height: 8px;
-  background: rgba(18,32,43,0.06);
+  background: rgba(0,0,0,0.12);
   border-radius: 999px;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--mainter-primary), #3b82f6);
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, #00ccff, #0077b3);
+  border-radius: 999px;
+  transition: width 0.5s ease;
 }
 
 .intake-v2-content {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 22px 0;
+  align-items: center;
+  padding: 24px 0;
 }
 
+/* Glass card */
 .step-container {
   width: 100%;
   max-width: 480px;
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.08);
-  padding: 28px;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 28px 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .step-header {
@@ -713,7 +723,7 @@ thead { background: rgba(18,32,43,0.03); }
 
 .step-number {
   font-size: 12px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -721,77 +731,255 @@ thead { background: rgba(18,32,43,0.03); }
 .step-header h3 {
   font-size: 20px;
   font-weight: 700;
-  color: var(--mainter-ink);
+  color: #00ccff;
   margin: 0 0 6px 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .step-description {
   font-size: 14px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
   margin: 0;
 }
 
-.field-container {
-  margin-bottom: 24px;
-}
-
-.intake-input {
-  width: 100%;
-  padding: 14px 16px;
+/* Progress info */
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.15);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--mainter-border);
-  background: white;
-  color: var(--mainter-ink);
-  font-size: 15px;
-  font-family: var(--font);
-  outline: none;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
 }
 
-.intake-input:focus {
-  box-shadow: 0 0 0 3px rgba(30,64,175,0.15);
-  border-color: var(--mainter-primary);
+.progress-bar-small {
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+  overflow: hidden;
 }
 
-.choice-group {
+.progress-fill-small {
+  height: 100%;
+  background: #00ccff;
+  transition: width 0.4s ease;
+}
+
+/* Questions with staggered animation */
+.question-container {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.question-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.question-item:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.question-number {
+  font-size: 11px;
+  font-weight: 700;
+  color: #00ccff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.question-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Input styling */
+.intake-input, .crop-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.intake-input::placeholder, .crop-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.intake-input:focus, .crop-input:focus {
+  outline: none;
+  border-color: #00ccff;
+  box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.15);
+}
+
+/* Choice options */
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .choice-option {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--mainter-border);
-  background: white;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .choice-option:hover {
-  background: rgba(30,64,175,0.04);
-  border-color: var(--mainter-primary);
+  background: rgba(0, 204, 255, 0.08);
+  border-color: #00ccff;
 }
 
-.choice-option input[type="radio"] {
+.choice-option input {
+  accent-color: #00ccff;
+}
+
+.choice-option-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.choice-option--bad {
+  opacity: 0.4;
+}
+
+/* Crops field */
+.crop-input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.crop-input {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 14px;
+}
+
+.add-crop-button {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #00ccff, #0077b3);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-crop-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
+}
+
+.crop-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 24px;
+}
+
+.crop-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(0, 204, 255, 0.12);
+  border: 1px solid rgba(0, 204, 255, 0.2);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #00ccff;
+}
+
+.crop-tag-remove {
+  border: none;
+  background: rgba(0,0,0,0.2);
+  color: #fff;
+  border-radius: 50%;
   width: 18px;
   height: 18px;
   cursor: pointer;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
-.choice-option span {
-  font-size: 15px;
-  color: var(--mainter-ink);
+.crop-tags-empty {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
 }
 
+/* Navigation buttons */
 .step-navigation {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
 }
 
+.step-navigation .button {
+  flex: 1;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.step-navigation .button:active {
+  transform: scale(0.97);
+}
+
+.step-navigation .button.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.step-navigation .button.secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.step-navigation .button.primary {
+  background: linear-gradient(135deg, #00ccff, #0077b3);
+  color: white;
+}
+
+.step-navigation .button.primary:hover {
+  box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
+}
+
+/* Welcome screen */
 .welcome-screen {
   text-align: center;
   padding: 22px;
@@ -800,16 +988,18 @@ thead { background: rgba(18,32,43,0.03); }
 .welcome-screen h3 {
   font-size: 22px;
   font-weight: 700;
-  color: var(--mainter-ink);
+  color: #00ccff;
   margin: 0 0 12px 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .welcome-screen p {
   font-size: 15px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
   margin: 0 0 20px 0;
 }
 
+/* Congratulations screen */
 .congratulations {
   display: flex;
   flex-direction: column;
@@ -822,30 +1012,36 @@ thead { background: rgba(18,32,43,0.03); }
 .congratulations-content {
   max-width: 420px;
   padding: 28px;
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  text-align: center;
 }
 
 .congratulations-logo {
   height: 56px;
   width: auto;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
 }
 
 .congratulations h2 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  color: var(--mainter-primary);
+  color: #00ccff;
   margin: 0 0 12px 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .congratulations p {
   font-size: 15px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
   margin: 0 0 24px 0;
 }
 
+/* Review */
 .review-container {
   padding: 0 12px;
 }
@@ -853,8 +1049,9 @@ thead { background: rgba(18,32,43,0.03); }
 .review-container h3 {
   font-size: 20px;
   font-weight: 600;
-  color: var(--mainter-ink);
+  color: #00ccff;
   margin: 0 0 16px 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .review-grid {
@@ -868,20 +1065,20 @@ thead { background: rgba(18,32,43,0.03); }
   display: flex;
   justify-content: space-between;
   padding: 12px 14px;
-  background: rgba(18,32,43,0.02);
+  background: rgba(0,0,0,0.12);
   border-radius: var(--radius-sm);
-  border-left: 3px solid var(--mainter-primary);
+  border-left: 3px solid #00ccff;
 }
 
 .review-label {
   font-size: 13px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .review-value {
   font-size: 14px;
   font-weight: 500;
-  color: var(--mainter-ink);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .review-actions {
@@ -890,206 +1087,137 @@ thead { background: rgba(18,32,43,0.03); }
   justify-content: flex-end;
 }
 
-/* Mobile responsive */
-@media (max-width: 720px) {
+.review-actions .button {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-actions .button:active {
+  transform: scale(0.97);
+}
+
+.review-actions .button.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.review-actions .button.secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.review-actions .button.primary {
+  background: linear-gradient(135deg, #00ccff, #0077b3);
+  color: white;
+}
+
+.review-actions .button.primary:hover {
+  box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
+}
+
+/* Welcome screen */
+.welcome-screen {
+  text-align: center;
+  padding: 22px;
+}
+
+.welcome-screen h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #00ccff;
+  margin: 0 0 12px 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.welcome-screen p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 20px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .intake-v2-container {
     padding: 12px;
   }
-  
+
+  .intake-v2-header {
+    padding: 16px;
+  }
+
+  .intake-logo {
+    height: 44px;
+  }
+
+  .intake-v2-content {
+    padding: 16px 0;
+  }
+
   .step-container {
-    padding: 20px;
-    border-radius: var(--radius-sm);
+    padding: 20px 20px;
   }
-  
-  .step-header h3 {
-    font-size: 18px;
+
+  .step-navigation {
+    flex-direction: column;
+    gap: 8px;
   }
-  
-  .intake-input {
-    padding: 12px 14px;
-    font-size: 14px;
+
+  .step-navigation .button {
+    padding: 12px 16px;
   }
-  
-  .choice-option {
-    padding: 10px 12px;
-  }
-  
+
   .congratulations-content {
-    padding: 22px;
+    padding: 20px;
+  }
+
+  .congratulations-logo {
+    height: 44px;
   }
 }
 
-/* Section and Question Styles */
-.step-container {
-  background: white;
-}
+@media (max-width: 480px) {
+  .intake-v2-container {
+    padding: 8px;
+  }
 
-.step-header {
-  margin-bottom: 16px;
-}
+  .intake-logo {
+    height: 36px;
+  }
 
-.step-number {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: rgba(30,64,175,0.06);
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  color: var(--muted);
-}
+  .intake-v2-header {
+    padding: 12px;
+  }
 
-.step-header h3 {
-  margin: 8px 0 6px 0;
-  font-size: 20px;
-}
+  .intake-v2-content {
+    padding: 12px 0;
+  }
 
-.step-description {
-  font-size: 14px;
-  color: var(--muted);
-  margin: 0 0 12px 0;
-}
+  .step-container {
+    padding: 16px 14px;
+  }
 
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: rgba(18,32,43,0.03);
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 16px;
-}
-
-.progress-bar-small {
-  height: 4px;
-  background: rgba(18,32,43,0.08);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-fill-small {
-  height: 100%;
-  background: var(--mainter-primary);
-  transition: width 0.3s ease;
-}
-
-.question-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.question-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px;
-  background: rgba(18,32,43,0.02);
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(18,32,43,0.06);
-}
-
-.question-number {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--mainter-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.question-text {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--mainter-ink);
-  margin-bottom: 6px;
-}
-
-/* Mobile responsive */
-@media (max-width: 720px) {
   .question-item {
     padding: 12px;
   }
-  
-  .question-number {
-    font-size: 10px;
-  }
-  
-  .question-text {
+
+  .step-navigation .button {
+    padding: 10px 12px;
     font-size: 13px;
   }
+
+  .congratulations-content {
+    padding: 16px;
+  }
+
+  .congratulations-logo {
+    height: 36px;
+  }
 }
 
-/* Crops Field Styles */
-.crop-input-wrapper {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.crop-input {
-  flex: 1;
-  padding: 12px 14px;
-  font-size: 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--mainter-border);
-  background: white;
-  color: var(--mainter-ink);
-  outline: none;
-  transition: box-shadow 0.2s ease;
-}
-
-.crop-input:focus {
-  box-shadow: 0 0 0 3px var(--focus-ring);
-}
-
-.add-crop-button {
-  white-space: nowrap;
-  padding: 12px 16px;
-}
-
-.crop-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-height: 32px;
-}
-
-.crop-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: var(--mainter-primary);
-  color: white;
-  border-radius: var(--radius-pill);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.crop-tag-remove {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-}
-
-.crop-tag-remove:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.crop-tags-empty {
-  color: var(--muted);
-  font-size: 14px;
-  font-style: italic;
-}
