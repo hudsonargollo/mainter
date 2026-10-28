@@ -12,6 +12,13 @@
   --shadow: 0 10px 30px rgba(18,32,43,0.08);
   --radius: 18px;
   --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+
+  /* Mainter design tokens */
+  --mainter-primary: #1E40AF;
+  --mainter-accent: #EAB308;
+  --mainter-bg: #F8FAFC;
+  --mainter-ink: #0F172A;
+  --mainter-border: #CBD5E1;
 }
 
 * { box-sizing: border-box; }
@@ -441,5 +448,128 @@ thead { background: rgba(18,32,43,0.03); }
   .bottom-link {
     font-size: 10px;
     padding: 8px 4px;
+  }
+}
+
+.conocimiento-wrap {
+  background: var(--mainter-bg);
+  min-height: 100vh;
+  padding: 22px;
+  color: var(--mainter-ink);
+}
+.conocimiento-card {
+  max-width: 980px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--mainter-border);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 20px 40px rgba(15,23,42,0.08);
+}
+.conocimiento-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.conocimiento-logo {
+  height: 56px;
+  width: auto;
+}
+.conocimiento-header h1 {
+  margin: 0;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--mainter-primary);
+  letter-spacing: -0.2px;
+}
+.conocimiento-header p {
+  margin: 0;
+  color: #5b6b78;
+  font-size: 14px;
+}
+.conocimiento-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form-section {
+  background: #ffffff;
+  border: 1px solid var(--mainter-border);
+  border-radius: 14px;
+  padding: 14px;
+}
+.form-section h2 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mainter-primary);
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4b5b66;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.required {
+  color: var(--danger);
+  margin-left: 4px;
+}
+.conocimiento-form input,
+.conocimiento-form select,
+.conocimiento-form textarea {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--mainter-border);
+  background: #ffffff;
+  color: var(--mainter-ink);
+  font-family: var(--font);
+  font-size: 14px;
+}
+.conocimiento-form input:focus,
+.conocimiento-form select:focus,
+.conocimiento-form textarea:focus {
+  outline: none;
+  border-color: var(--mainter-primary);
+  box-shadow: 0 0 0 3px rgba(30,64,175,0.12);
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.button.primary {
+  background: var(--mainter-primary);
+  color: white;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 24px rgba(30,64,175,0.18);
+}
+.button.primary:hover {
+  background: #1734a6;
+}
+
+@media (max-width: 720px) {
+  .conocimiento-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
   }
 }

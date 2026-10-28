@@ -40,6 +40,8 @@ export default function Layout() {
           <NavItem to="/_authenticated/dashboard" label="Tablero" collapsed={collapsed} onClick={handleNavClick} />
           <NavItem to="/_authenticated/customers" label="Clientes" collapsed={collapsed} onClick={handleNavClick} />
           <NavItem to="/_authenticated/forms" label="Formularios" collapsed={collapsed} onClick={handleNavClick} />
+          <NavItem to="/_authenticated/submissions" label="Respuestas" collapsed={collapsed} onClick={handleNavClick} />
+          <NavItem to="/_authenticated/reports" label="Reportes" collapsed={collapsed} onClick={handleNavClick} />
           <NavItem to="/_authenticated/follow-ups" label="Seguimientos" collapsed={collapsed} onClick={handleNavClick} />
           <NavItem to="/_authenticated/inbox" label="Bandeja" collapsed={collapsed} onClick={handleNavClick} />
           <Link to="/login" className={`sidebar-link ${collapsed ? 'sidebar-link--icon' : ''} sidebar-link--muted`} title="Salir" onClick={handleNavClick}>

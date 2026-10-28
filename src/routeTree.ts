@@ -9,11 +9,13 @@ import { Route as formsRoute } from './routes/_authenticated/forms';
 import { Route as followUpsRoute } from './routes/_authenticated/follow-ups';
 import { Route as inboxRoute } from './routes/_authenticated/inbox';
 import { Route as publicFormRoute } from './routes/f/$formId';
+import { Route as conocimientoRoute } from './routes/conocimiento';
 
 export const routeTree = (rootRoute as any).addChildren([
   indexRoute,
   loginRoute,
   publicFormRoute,
+  conocimientoRoute,
   (authenticatedRoute as any).addChildren([
     dashboardRoute,
     customersRoute,
