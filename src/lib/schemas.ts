@@ -1,5 +1,16 @@
 import { z } from 'zod';
 
+// Salesman schema
+export const salesmanSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(2),
+  email: z.string().email().optional().or(z.literal('')).default(''),
+  phone: z.string().optional().default(''),
+  commissionRate: z.number().min(0).max(100).default(0),
+  active: z.boolean().default(true),
+});
+export type Salesman = z.infer<typeof salesmanSchema>;
+
 export const customerSchema = z.object({
   id: z.string().optional(),
   fullName: z.string().min(2),
@@ -18,6 +29,7 @@ export const customerSchema = z.object({
   hectares: z.number().default(0),
   crops: z.array(z.string()).default([]),
   machinery: z.array(z.string()).default([]),
+  salesmanId: z.string().optional().default(''),
   preferences: z.object({
     contactChannel: z.string().default(''),
     preferredBrands: z.array(z.string()).default([]),

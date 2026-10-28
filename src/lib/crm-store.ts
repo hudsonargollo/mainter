@@ -1,6 +1,8 @@
-import { customerSchema, type Customer } from '~/lib/schemas';
+import { customerSchema, type Customer, salesmanSchema, type Salesman } from '~/lib/schemas';
 import { interactionSchema, type Interaction } from '~/lib/schemas';
 import { followUpSchema, type FollowUp } from '~/lib/schemas';
+import { formSchema, type FormDef } from '~/lib/schemas';
+import { publicSubmissionSchema, type PublicSubmission } from '~/lib/schemas';
 import { kvGet, kvPut } from '~/lib/kv';
 
 type CustomerRow = Customer & { createdAt?: string };
@@ -38,6 +40,82 @@ export async function deleteCustomer(id: string) {
   await writeCustomers(customers.filter((c) => c.id !== id));
 }
 
+// Salesman CRUD operations
+async function readSalesmen(): Promise<Salesman[]> {
+  const raw = await kvGet<Salesman[]>('salesmen');
+  return raw ?? [];
+}
+
+async function writeSalesmen(data: Salesman[]) {
+  await kvPut('salesmen', data);
+}
+
+export async function listSalesmen(): Promise<Salesman[]> {
+  const salesmen = await readSalesmen();
+  return salesmen.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function saveSalesman(input: Salesman): Promise<Salesman> {
+  const data = salesmanSchema.parse(input);
+  const salesmen = await readSalesmen();
+  const record: Salesman = { ...data, id: data.id ?? uid() };
+  const next = salesmen.filter((s) => s.id !== record.id);
+  next.push(record);
+  await writeSalesmen(next);
+  return record;
+}
+
+export async function deleteSalesman(id: string) {
+  const salesmen = await readSalesmen();
+  await writeSalesmen(salesmen.filter((s) => s.id !== id));
+}
+
+// Sales metrics
+export async function getSalesMetrics() {
+  const [salesmen, customers, interactions] = await Promise.all([
+    listSalesmen(),
+    listCustomers(),
+    listInteractions(''),
+  ]);
+  
+  const activeSalesmen = salesmen.filter(s => s.active);
+  
+  const metrics = activeSalesmen.map(s => {
+    const assignedCustomers = customers.filter(c => c.salesmanId === s.id && c.status === 'active');
+    const customerCount = assignedCustomers.length;
+    const totalRevenue = assignedCustomers.reduce((sum, c) => {
+      const purchaseValue = c.customValues?.purchaseValue || 0;
+      return sum + (typeof purchaseValue === 'number' ? purchaseValue : 0);
+    }, 0);
+    
+    return {
+      ...s,
+      customerCount,
+      totalRevenue,
+      averageCommission: totalRevenue * (s.commissionRate / 100),
+    };
+  });
+  
+  const totalCustomers = customers.filter(c => c.status === 'active').length;
+  const totalRevenue = customers.reduce((sum, c) => {
+    const purchaseValue = c.customValues?.purchaseValue || 0;
+    return sum + (typeof purchaseValue === 'number' ? purchaseValue : 0);
+  }, 0);
+  
+  return {
+    salesmen: metrics,
+    summary: {
+      totalSalesmen: salesmen.length,
+      activeSalesmen: activeSalesmen.length,
+      totalCustomers,
+      totalRevenue,
+      avgCustomersPerSalesman: activeSalesmen.length > 0 ? totalCustomers / activeSalesmen.length : 0,
+      avgRevenuePerSalesman: activeSalesmen.length > 0 ? totalRevenue / activeSalesmen.length : 0,
+    }
+  };
+}
+
+// Interactions
 async function readInteractions(): Promise<Interaction[]> {
   const raw = await kvGet<Interaction[]>('interactions');
   return raw ?? [];
@@ -62,6 +140,7 @@ export async function saveInteraction(input: Interaction): Promise<Interaction> 
   return record;
 }
 
+// FollowUps
 async function readFollowUps(): Promise<FollowUp[]> {
   const raw = await kvGet<FollowUp[]>('followups');
   return raw ?? [];
@@ -85,6 +164,7 @@ export async function saveFollowUp(input: FollowUp): Promise<FollowUp> {
   return record;
 }
 
+// Forms
 async function readForms(): Promise<FormDef[]> {
   const raw = await kvGet<FormDef[]>('forms');
   return raw ?? [];
@@ -113,6 +193,7 @@ export async function deleteForm(id: string) {
   await writeForms(all.filter((f) => f.id !== id));
 }
 
+// Public Submissions
 async function readPublicSubmissions(): Promise<PublicSubmission[]> {
   const raw = await kvGet<PublicSubmission[]>('publicSubmissions');
   return raw ?? [];
