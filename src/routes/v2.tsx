@@ -1,6 +1,7 @@
 import { createRoute } from '@tanstack/react-router';
 import { Route as rootRoute } from './__root';
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -17,7 +18,7 @@ const SECTIONS = [
     questions: [
       { id: 'fullName', label: '¿Cuál es su nombre completo?', type: 'text', required: true },
       { id: 'age', label: '¿Qué edad tiene?', type: 'text', required: true },
-      { id: 'estadoCivil', label: '¿Cuál es su estado civil (soltero o casado)?', type: 'single_choice', required: true, options: ['Soltero', 'Casado', 'Divorciado', 'Viudo', 'Union libre'] },
+      { id: 'estadoCivil', label: '¿Cuál es su estado civil (soltero o casado)?', type: 'single_choice', required: true, options: ['Soltero', 'Casado', 'Divorciado', 'Viudo', 'Unión libre'] },
       { id: 'tieneHijos', label: '¿Tiene hijos?', type: 'single_choice', required: true, options: ['Sí', 'No'] },
       { id: 'cantidadHijos', label: '¿Cuántos hijos tiene?', type: 'text', required: false },
       { id: 'edadesHijos', label: '¿Qué edades tienen?', type: 'text', required: false },
@@ -74,7 +75,7 @@ const SECTIONS = [
     title: 'Relación con el Asesor de Negocios (ADN)',
     description: 'Acompañamiento y comunicación para el éxito de su operación.',
     questions: [
-      { id: 'horarioVisita', label: '¿En qué horario prefiere que el ADN lo visite en su propiedad (por la mañana temprano, al mediodía, por la tarde)?', type: 'single_choice', required: true, options: ['Mañana temprano', 'Al mediodía', 'Por la tarde', 'FlexIBLE'] },
+      { id: 'horarioVisita', label: '¿En qué horario prefiere que el ADN lo visite en su propiedad (por la mañana temprano, al mediodía, por la tarde)?', type: 'single_choice', required: true, options: ['Mañana temprano', 'Al mediodía', 'Por la tarde', 'Flexible'] },
       { id: 'comunicacionPreferida', label: '¿Cómo prefiere que se comuniquen con usted (llamada directa, mensaje de WhatsApp, audios)?', type: 'single_choice', required: true, options: ['Llamada directa', 'WhatsApp', 'Audios', 'Correo electrónico'] },
       { id: 'temaFavorito', label: 'Además del trabajo, ¿cuál es el tema del que más le gusta hablar o debatir con su ADN?', type: 'text', required: false },
       { id: 'anecdotaADN', label: '¿Tienen alguna anécdota divertida, un susto o un buen recuerdo que haya vivido junto a su ADN en el campo?', type: 'text', required: false },
@@ -110,6 +111,7 @@ export default function IntakeFormV2() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCongrats, setShowCongrats] = useState(false);
   const [activeSalesmen, setActiveSalesmen] = useState<Salesmen[]>([]);
+  const [hoveredQuestion, setHoveredQuestion] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSalesmen().then(data => {
@@ -119,7 +121,6 @@ export default function IntakeFormV2() {
 
   const currentSection = SECTIONS[currentStep];
   const isLastSection = currentStep === SECTIONS.length - 1;
-  const hasQuestions = currentSection && currentSection.questions.length > 0;
 
   const answeredCount = currentSection?.questions.filter(q => {
     const val = formData[q.id];
@@ -156,7 +157,7 @@ export default function IntakeFormV2() {
           status: 'new',
         }),
       });
-      
+
       if (response.ok) {
         setShowCongrats(true);
       }
@@ -177,11 +178,13 @@ export default function IntakeFormV2() {
         <div className="choice-group">
           {question.options?.map((option: string) => {
             const isAnswered = value === option;
-            const isGoodAnswer = question.id === 'estadoCivil' ? ['Soltero', 'Casado'].includes(option) : true;
-            const isBadAnswer = question.id === 'estadoCivil' ? option === 'Union libre' : false;
-            
+            const isBadAnswer = question.id === 'estadoCivil' ? option === 'Unión libre' : false;
+
             return (
-              <label key={option} className={`choice-option ${isBadAnswer ? 'choice-option--bad' : ''}`}>
+              <label
+                key={option}
+                className={`choice-option ${isBadAnswer ? 'choice-option--bad' : ''}`}
+              >
                 <input
                   type="radio"
                   name={question.id}
@@ -217,8 +220,8 @@ export default function IntakeFormV2() {
             }}
             className="intake-input crop-input"
           />
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="button add-crop-button"
             onClick={() => {
               const val = (formData[question.id + 'Input'] || '').trim();
@@ -234,8 +237,8 @@ export default function IntakeFormV2() {
             {crops.map((crop: string, idx: number) => (
               <div key={idx} className="crop-tag">
                 <span className="crop-tag-text">{crop}</span>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="crop-tag-remove"
                   onClick={() => {
                     setFormData(prev => ({
@@ -267,33 +270,6 @@ export default function IntakeFormV2() {
     );
   };
 
-  const renderReview = () => {
-    return (
-      <div className="review-container">
-        <h3>Revisa tus datos</h3>
-        <div className="review-grid">
-          {currentSection?.questions.map((question) => {
-            const value = formData[question.id];
-            return value ? (
-              <div key={question.id} className="review-item">
-                <span className="review-label">{question.label}:</span>
-                <span className="review-value">{value}</span>
-              </div>
-            ) : null;
-          })}
-        </div>
-        <div className="review-actions">
-          <button className="button secondary" onClick={handleBack}>
-            Anterior
-          </button>
-          <button className="button" onClick={handleSubmit}>
-            {isSubmitting ? 'Enviando...' : 'Enviar'}
-          </button>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="intake-v2-container">
       <div className="intake-v2-header">
@@ -301,16 +277,21 @@ export default function IntakeFormV2() {
           <img src="/logomainter.png" alt="Mainter" className="intake-logo" />
         </div>
         <div className="progress-bar">
-          <div 
-            className="progress-fill" 
+          <div
+            className="progress-fill"
             style={{ width: `${(currentStep / (SECTIONS.length - 1)) * 100}%` }}
           />
         </div>
       </div>
-      
+
       <div className="intake-v2-content">
         {showCongrats ? (
-          <div className="congratulations">
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="congratulations"
+          >
             <div className="congratulations-content">
               <img src="/logomainter.png" alt="Mainter" className="congratulations-logo" />
               <h2>¡Gracias por completar el registro!</h2>
@@ -323,62 +304,82 @@ export default function IntakeFormV2() {
                 Registrar otro
               </button>
             </div>
-          </div>
+          </motion.div>
         ) : (
-          <div className="step-container">
-            <div className="step-header">
-              <div className="step-number">
-                {currentSection?.title ? (
-                  <>
-                    <div className="section-label">{currentSection.title}</div>
-                    <div>{currentStep + 1} de {SECTIONS.length}</div>
-                  </>
-                ) : (
-                  <>
-                    <div className="step-divider">|</div>
-                    <div>{currentStep + 1} de {SECTIONS.length}</div>
-                  </>
-                )}
-              </div>
-              <h3>{currentSection?.title || ''}</h3>
-              {currentSection?.description && (
+          <>
+            <motion.div
+              key={currentSection.id}
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="step-container"
+            >
+              <div className="step-header">
+                <div className="step-number">
+                  <div className="section-label">{currentSection.title}</div>
+                  <div className="step-divider">|</div>
+                  <div>{currentStep + 1} de {SECTIONS.length}</div>
+                </div>
+                <h3>{currentSection.title}</h3>
                 <p className="step-description">{currentSection.description}</p>
-              )}
-              
-              {hasQuestions && (
+
                 <div className="progress-info">
-                    {answeredCount} de {currentSection!.questions.length} respondidas
-                    <div className="progress-bar-small">
-                  <div 
-                        className="progress-fill-small" 
-                        style={{ width: `${(answeredCount / currentSection!.questions.length) * 100}%` }}
-                  />
+                  {answeredCount} de {currentSection!.questions.length} respondidas
+                  <div className="progress-bar-small">
+                    <div
+                      className="progress-fill-small"
+                      style={{ width: `${(answeredCount / currentSection!.questions.length) * 100}%` }}
+                    />
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
 
-            {hasQuestions && (
               <div className="question-container">
-                {currentSection!.questions.map((question) => (
-                  <div key={question.id} className="question-item">
-                    <div className="question-number">{answeredCount + 1}.o</div>
+                {currentSection!.questions.map((question, idx) => (
+                  <motion.div
+                    key={question.id}
+                    initial={{
+                      opacity: 0,
+                      y: 16,
+                      width: 'calc(100% - 32px)',
+                      marginLeft: '16px',
+                    }}
+                    animate={{ opacity: 1, y: 0, width: 'calc(100% - 16px)', marginLeft: '8px' }}
+                    transition={{
+                      duration: 0.5,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: idx * 0.08,
+                    }}
+                    onHoverStart={() => setHoveredQuestion(question.id)}
+                    onHoverEnd={() => setHoveredQuestion(null)}
+                    className="question-item"
+                  >
+                    <div className="question-number">{idx + 1}.o</div>
                     <div className="question-text">{question.label}</div>
                     {renderQuestion(question)}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            )}
-
-            <div className="step-navigation">
-              <button className="button secondary" onClick={handleBack}>
-                Anterior
-              </button>
-              <button className="button" onClick={handleNext}>
-                {isLastSection ? 'Enviar' : 'Siguiente'}
-              </button>
-            </div>
-          </div>
+            </motion.div>
+            <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="step-navigation"
+              >
+                <button className="button secondary" onClick={handleBack}>
+                  Anterior
+                </button>
+                <button className="button" onClick={handleNext}>
+                  {isLastSection ? 'Enviar' : 'Siguiente'}
+                </button>
+              </motion.div>
+            </AnimatePresence>
+          </>
         )}
       </div>
     </div>
