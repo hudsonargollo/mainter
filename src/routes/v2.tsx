@@ -1,7 +1,7 @@
 import { createRoute } from '@tanstack/react-router';
 import { Route as rootRoute } from './__root';
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
