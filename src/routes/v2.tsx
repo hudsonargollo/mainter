@@ -8,85 +8,91 @@ export const Route = createRoute({
   component: IntakeFormV2,
 });
 
-// Form steps
-const STEPS = [
+// Form sections with questions
+const SECTIONS = [
   {
-    id: 'welcome',
-    title: 'Bienvenido a Mainter',
-    description: 'Te ayudamos a registrar tu información. Empezaremos con tus datos personales.',
+    id: 'biografia',
+    title: 'Biografía',
+    description: 'Conoce más sobre quién es el dueño de la propiedad.',
+    questions: [
+      { id: 'fullName', label: '¿Cuál es su nombre completo?', type: 'text', required: true },
+      { id: 'age', label: '¿Qué edad tiene?', type: 'text', required: true },
+      { id: 'estadoCivil', label: '¿Cuál es su estado civil (soltero o casado)?', type: 'single_choice', required: true, options: ['Soltero', 'Casado', 'Divorciado', 'Viudo', 'Union libre'] },
+      { id: 'tieneHijos', label: '¿Tiene hijos?', type: 'single_choice', required: true, options: ['Sí', 'No'] },
+      { id: 'cantidadHijos', label: '¿Cuántos hijos tiene?', type: 'text', required: false },
+      { id: 'edadesHijos', label: '¿Qué edades tienen?', type: 'text', required: false },
+      { id: 'fechasNacimientoHijos', label: '¿Cuáles son sus fechas de nacimiento?', type: 'text', required: false },
+      { id: 'fechaBoda', label: '¿Cuándo es su aniversario de bodas?', type: 'text', required: false },
+      { id: 'tieneNietos', label: '¿Tiene nietos?', type: 'single_choice', required: false, options: ['Sí', 'No'] },
+      { id: 'cantidadNietos', label: '¿Cuántos y de qué edades?', type: 'text', required: false },
+      { id: 'origen', label: '¿De qué ciudad o región es originario? ¿Dónde creció?', type: 'text', required: true },
+      { id: 'tieneTrabajaEnCampo', label: '¿Trabaja solo o con su familia en el campo?', type: 'single_choice', required: true, options: ['Solo', 'Con familia', 'Con staff'] },
+    ],
   },
   {
-    id: 'fullName',
-    title: '¿Cuál es tu nombre completo?',
-    field: { name: 'fullName', label: 'Nombre completo', type: 'text' as const, required: true },
+    id: 'familia',
+    title: 'Familia y Orígenes',
+    description: 'La historia familiar es fundamental para entender su patrimonio.',
+    questions: [
+      { id: 'fechaNacimientoMadre', label: '¿Cuál es la fecha de nacimiento de su madre?', type: 'text', required: false },
+      { id: 'fechaNacimientoPadre', label: '¿Cuál es la fecha de nacimiento de su padre?', type: 'text', required: false },
+      { id: 'tieneTradicionFamilia', label: '¿Tiene alguna tradición familiar sagrada (por ejemplo, el churrasco familiar de los domingos, viajes de fin de año, etc.)?', type: 'single_choice', required: false, options: ['Sí', 'No'] },
+    ],
   },
   {
-    id: 'company',
-    title: '¿Tienes empresa?',
-    description: 'Puedes agregar información de tu empresa si aplica.',
-    field: { name: 'company', label: 'Nombre de la empresa', type: 'text' as const, required: false },
+    id: 'gustos',
+    title: 'Gustos, Aficiones y Estilo de Vida',
+    description: 'Conoce sus preferencias y hábitos de vida.',
+    questions: [
+      { id: 'comidaFavorita', label: '¿Cuál es su comida favorita?', type: 'text', required: false },
+      { id: 'leGustaFutbol', label: '¿Le gusta el fútbol? Si es así, ¿cuál es su equipo favorito?', type: 'text', required: false },
+      { id: 'otroDeporte', label: 'Aparte del fútbol, ¿sigue o practica algún otro deporte (carreras de autos, tenis, caballos, caza, pesca)?', type: 'text', required: false },
+      { id: 'musicaFavorita', label: '¿Qué tipo de música le gusta escuchar cuando maneja hacia el campo o mientras trabaja?', type: 'text', required: false },
+      { id: 'bebidaFavorita', label: '¿Cuál es su bebida favorita para relajarse o acompañar una buena comida (vino, cerveza, café, mate, etc.)?', type: 'text', required: false },
+      { id: 'leGustoCocinar', label: '¿Le gusta cocinar o es usted el encargado de hacer el churrasco en los eventos familiares?', type: 'single_choice', required: false, options: ['Sí', 'No', 'A veces'] },
+      { id: 'restauranteFavorito', label: 'Cuando sale a comer con su familia, ¿cuál es su restaurante favorito o qué tipo de ambiente prefiere?', type: 'text', required: false },
+      { id: 'viajePlaya', label: 'Cuando viaja por placer, ¿qué tipo de destino prefiere (playa, campo, ciudad, montaña)?', type: 'text', required: false },
+      { id: 'tieneMascotas', label: '¿Tiene mascotas o animales a los que les tenga especial cariño en la propiedad (perros, caballos, etc.)?', type: 'text', required: false },
+      { id: 'tieneSociedad', label: '¿Pertenece a alguna fraternidad, club social o asociación ganadrera/agrícola donde pase su tiempo libre?', type: 'text', required: false },
+    ],
   },
   {
-    id: 'phone',
-    title: '¿Cuál es tu teléfono?',
-    field: { name: 'phone', label: 'Número de teléfono', type: 'text' as const, required: true },
+    id: 'rutina',
+    title: 'Rutina, Personalidad y Vínculo con el Campo',
+    description: 'Comprende cómo funciona su día a día y qué le motiva.',
+    questions: [
+      { id: 'madruga', label: '¿Es de los que madrugan mucho o prefiere arrancar su día de trabajo un poco más tarde?', type: 'single_choice', required: true, options: ['Madruga', 'Tarde', 'Mixto'] },
+      { id: 'loQueMasDisfruta', label: '¿Qué es lo que más disfruta de su vida trabajando en el campo?', type: 'text', required: true },
+      { id: 'comoEmenzo', label: '¿Cómo empezó en el rubro agrícola? (¿Heredó la tierra, la compró, empezó desde cero?)', type: 'text', required: true },
+      { id: 'cultivoFavorito', label: 'De todos los cultivos que maneja, ¿cuál es su favorito o el que más le apasiona trabajar?', type: 'text', required: false },
+      { id: 'loQueRelaja', label: '¿Qué es lo que más le relaja hacer cuando está muy estresado por una campaña difícil?', type: 'text', required: false },
+      { id: 'logroPropio', label: '¿Qué logro personal o familiar le da más orgullo de todo lo que ha construido hasta ahora?', type: 'text', required: false },
+    ],
   },
   {
-    id: 'email',
-    title: '¿Tienes email?',
-    description: 'Opcional, pero útil para recibir actualizaciones.',
-    field: { name: 'email', label: 'Correo electrónico', type: 'email' as const, required: false },
-  },
-  {
-    id: 'department',
-    title: '¿En qué departamento estás?',
-    field: { name: 'department', label: 'Departamento', type: 'text' as const, required: true },
-  },
-  {
-    id: 'municipality',
-    title: '¿En qué municipio estás?',
-    field: { name: 'municipality', label: 'Municipio', type: 'text' as const, required: true },
-  },
-  {
-    id: 'hectares',
-    title: '¿Cuántos hectáreas manejas?',
-    field: { name: 'hectares', label: 'Hectáreas', type: 'number' as const, required: false },
-  },
-  {
-    id: 'crops',
-    title: '¿Qué cultivos produce tu finca?',
-    description: 'Agrega cada cultivo. Usa la tecla Enter para añadir uno nuevo.',
-    field: { name: 'crops', label: 'Cultivos', type: 'crops' as const, required: false },
-  },
-  {
-    id: 'contact',
-    title: '¿Cómo prefieres ser contactado?',
-    field: { name: 'contactChannel', label: 'Canal de contacto', type: 'single_choice' as const, required: true, options: ['WhatsApp', 'Teléfono', 'Email', 'Presencial'] },
-  },
-  {
-    id: 'salesman',
-    title: '¿Tienes un vendedor asignado?',
-    description: 'Si ya tienes un comercial asignado, selecciónalo.',
-    field: { name: 'salesmanId', label: 'Vendedor', type: 'text' as const, required: false },
-  },
-  {
-    id: 'review',
-    title: 'Revisa tus datos',
-    review: true,
+    id: 'adn',
+    title: 'Relación con el Asesor de Negocios (ADN)',
+    description: 'Acompañamiento y comunicación para el éxito de su operación.',
+    questions: [
+      { id: 'horarioVisita', label: '¿En qué horario prefiere que el ADN lo visite en su propiedad (por la mañana temprano, al mediodía, por la tarde)?', type: 'single_choice', required: true, options: ['Mañana temprano', 'Al mediodía', 'Por la tarde', 'FlexIBLE'] },
+      { id: 'comunicacionPreferida', label: '¿Cómo prefiere que se comuniquen con usted (llamada directa, mensaje de WhatsApp, audios)?', type: 'single_choice', required: true, options: ['Llamada directa', 'WhatsApp', 'Audios', 'Correo electrónico'] },
+      { id: 'temaFavorito', label: 'Además del trabajo, ¿cuál es el tema del que más le gusta hablar o debatir con su ADN?', type: 'text', required: false },
+      { id: 'anecdotaADN', label: '¿Tienen alguna anécdota divertida, un susto o un buen recuerdo que haya vivido junto a su ADN en el campo?', type: 'text', required: false },
+    ],
   },
 ];
 
-interface FormData {
+export interface FormData {
   [key: string]: any;
 }
 
-export interface Salesman {
+export interface Salesmen {
   id: string;
   name: string;
   active?: boolean;
 }
 
-async function fetchSalesmen(): Promise<Salesman[]> {
+async function fetchSalesmen(): Promise<Salesmen[]> {
   try {
     const response = await fetch('/api/salesmen');
     if (response.ok) {
@@ -103,24 +109,29 @@ export default function IntakeFormV2() {
   const [formData, setFormData] = useState<FormData>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCongrats, setShowCongrats] = useState(false);
-  const [activeSalesmen, setActiveSalesmen] = useState<Salesman[]>([]);
+  const [activeSalesmen, setActiveSalesmen] = useState<Salesmen[]>([]);
 
-  // Load salesmen for the conditional field
   useEffect(() => {
     fetchSalesmen().then(data => {
       setActiveSalesmen(data.filter(s => s.active !== false));
     });
   }, []);
 
-  const currentStepData = STEPS[currentStep];
-  const isLastStep = currentStep === STEPS.length - 1;
+  const currentSection = SECTIONS[currentStep];
+  const isLastSection = currentStep === SECTIONS.length - 1;
+  const hasQuestions = currentSection && currentSection.questions.length > 0;
+
+  const answeredCount = currentSection?.questions.filter(q => {
+    const val = formData[q.id];
+    return val !== undefined && val !== '';
+  }).length || 0;
 
   const handleInputChange = (name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleNext = () => {
-    if (isLastStep) {
+    if (isLastSection) {
       handleSubmit();
     } else {
       setCurrentStep(prev => prev + 1);
@@ -156,193 +167,127 @@ export default function IntakeFormV2() {
     }
   };
 
-  const getSalesmanOptions = () => {
-    const step = currentStepData.field;
-    if (!step) return [];
-    if (step.name !== 'salesmanId') {
-      return step.options || [];
-    }
-    return ['Nadie asignado', ...activeSalesmen.map(s => s.name)];
-  };
+  const renderQuestion = (question: typeof currentSection.questions[0]) => {
+    const value = formData[question.id];
+    const isSingleChoice = question.type === 'single_choice';
+    const isCrops = question.type === 'crops';
 
-  const getCropsInput = () => {
-    const existing = formData.crops || [];
-    return existing.map((value: string, idx: number) => (
-      <div key={idx} className="crop-tag">
-        <span className="crop-tag-text">{value}</span>
-        <button 
-          type="button" 
-          className="crop-tag-remove"
-          onClick={() => removeCrop(idx)}
-          aria-label={`Eliminar ${value}`}
-        >
-          ✕
-        </button>
-      </div>
-    ));
-  };
-
-  const addCrop = (value: string) => {
-    if (!value.trim()) return;
-    const trimmed = value.trim();
-    const existing = formData.crops || [];
-    if (existing.includes(trimmed)) return;
-    setFormData(prev => ({ ...prev, crops: [...(prev.crops || []), trimmed] }));
-  };
-
-  const removeCrop = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      crops: prev.crops.filter((_: unknown, i: number) => i !== index),
-    }));
-  };
-
-  const renderStep = () => {
-    if (showCongrats) {
+    if (isSingleChoice) {
       return (
-        <div className="congratulations">
-          <div className="congratulations-content">
-            <img src="/logomainter.png" alt="Mainter" className="congratulations-logo" />
-            <h2>¡Gracias por completar el registro!</h2>
-            <p>Nuestro equipo se pondrá en contacto contigo pronto.</p>
-            <button className="button primary" onClick={() => {
-              setCurrentStep(0);
-              setFormData({});
-              setShowCongrats(false);
-            }}>
-              Registrar otro
-            </button>
-          </div>
+        <div className="choice-group">
+          {question.options?.map((option: string) => {
+            const isAnswered = value === option;
+            const isGoodAnswer = question.id === 'estadoCivil' ? ['Soltero', 'Casado'].includes(option) : true;
+            const isBadAnswer = question.id === 'estadoCivil' ? option === 'Union libre' : false;
+            
+            return (
+              <label key={option} className={`choice-option ${isBadAnswer ? 'choice-option--bad' : ''}`}>
+                <input
+                  type="radio"
+                  name={question.id}
+                  value={option}
+                  checked={isAnswered}
+                  onChange={(e) => handleInputChange(question.id, e.target.value)}
+                />
+                <span className="choice-option-text">{option}</span>
+              </label>
+            );
+          })}
         </div>
       );
     }
 
-    if (currentStepData.review) {
+    if (isCrops) {
+      const crops = formData[question.id] || [];
       return (
-        <div className="review-container">
-          <h3>Revisa tus datos</h3>
-          <div className="review-grid">
-            {STEPS.slice(0, -2).map((step) => {
-              const field = step.field;
-              if (!field) return null;
-              const value = formData[field.name];
-              return value ? (
-                <div key={step.id} className="review-item">
-                  <span className="review-label">{field.label}:</span>
-                  <span className="review-value">{value}</span>
-                </div>
-              ) : null;
-            })}
-          </div>
-          <div className="review-actions">
-            <button className="button secondary" onClick={handleBack}>
-              Anterior
-            </button>
-            <button className="button" onClick={handleSubmit}>
-              {isSubmitting ? 'Enviando...' : 'Enviar'}
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (!currentStepData.field) {
-      return (
-        <div className="welcome-screen">
-          <h3>{currentStepData.title}</h3>
-          <p>{currentStepData.description}</p>
-          <button className="button" onClick={handleNext}>
-            Comenzar
+        <div className="crop-input-wrapper">
+          <input
+            type="text"
+            placeholder="Escribe un cultivo y presiona Enter"
+            value={(formData[question.id + 'Input'] || '')}
+            onChange={(e) => setFormData(prev => ({ ...prev, [question.id + 'Input']: e.target.value }))}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter' && (formData[question.id + 'Input'] || '').trim()) {
+                const val = (formData[question.id + 'Input'] || '').trim();
+                if (!crops.includes(val)) {
+                  setFormData(prev => ({ ...prev, [question.id]: [...(prev[question.id] || []), val] }));
+                  setFormData(prev => ({ ...prev, [question.id + 'Input']: '' }));
+                }
+              }
+            }}
+            className="intake-input crop-input"
+          />
+          <button 
+            type="button" 
+            className="button add-crop-button"
+            onClick={() => {
+              const val = (formData[question.id + 'Input'] || '').trim();
+              if (val && !crops.includes(val)) {
+                setFormData(prev => ({ ...prev, [question.id]: [...(prev[question.id] || []), val] }));
+                setFormData(prev => ({ ...prev, [question.id + 'Input']: '' }));
+              }
+            }}
+          >
+            + Añadir
           </button>
+          <div className="crop-tags">
+            {crops.map((crop: string, idx: number) => (
+              <div key={idx} className="crop-tag">
+                <span className="crop-tag-text">{crop}</span>
+                <button 
+                  type="button" 
+                  className="crop-tag-remove"
+                  onClick={() => {
+                    setFormData(prev => ({
+                      ...prev,
+                      [question.id]: prev[question.id].filter((_: unknown, i: number) => i !== idx),
+                    }));
+                  }}
+                  aria-label={`Eliminar ${crop}`}
+                >
+                  ✕
+                </button>
+              </div>
+            )) || <span className="crop-tags-empty">Sin cultivos agregados</span>}
+          </div>
         </div>
       );
     }
-
-    const step = currentStepData.field;
 
     return (
-      <div className="step-container">
-        <div className="step-header">
-          <div className="step-number">{currentStep + 1} de {STEPS.length}</div>
-          <h3>{currentStepData.title}</h3>
-          {currentStepData.description && (
-            <p className="step-description">{currentStepData.description}</p>
-          )}
-        </div>
+      <input
+        type="text"
+        name={question.id}
+        value={value || ''}
+        onChange={(e) => handleInputChange(question.id, e.target.value)}
+        className="intake-input"
+        placeholder={question.label}
+        required={question.required}
+      />
+    );
+  };
 
-        <div className="field-container">
-          {step.type === 'single_choice' && (
-            <div className="choice-group">
-              {getSalesmanOptions().map((option, idx) => (
-                <label key={idx} className="choice-option">
-                  <input
-                    type="radio"
-                    name={step.name}
-                    value={option}
-                    checked={formData[step.name] === option}
-                    onChange={(e) => handleInputChange(step.name, e.target.value)}
-                  />
-                  <span>{option}</span>
-                </label>
-              ))}
-            </div>
-          )}
-          
-          {step.type !== 'single_choice' && (
-            <div className="generic-input-container">
-              {step.type === 'crops' && (
-                <>
-                  <div className="crop-input-wrapper">
-                    <input
-                      type="text"
-                      placeholder="Escribe un cultivo y presiona Enter"
-                      value={formData.cropsInput || ''}
-                      onChange={(e) => setFormData(prev => ({ ...prev, cropsInput: e.target.value }))}
-                      onKeyUp={(e) => {
-                        if (e.key === 'Enter' && formData.cropsInput) {
-                          addCrop(formData.cropsInput);
-                          setFormData(prev => ({ ...prev, cropsInput: '' }));
-                        }
-                      }}
-                      className="intake-input crop-input"
-                    />
-                    <button 
-                      type="button" 
-                      className="button add-crop-button"
-                      onClick={() => addCrop(formData.cropsInput)}
-                    >
-                      + Añadir
-                    </button>
-                  </div>
-                  <div className="crop-tags">
-                    {getCropsInput() || <span className="crop-tags-empty">Sin cultivos agregados</span>}
-                  </div>
-                </>
-              )}
-              
-              {step.type !== 'crops' && (
-                <input
-                  type="text"
-                  name={step.name}
-                  value={formData[step.name] || ''}
-                  onChange={(e) => handleInputChange(step.name, e.target.value)}
-                  className="intake-input"
-                  placeholder={step.label}
-                  required={step.required}
-                />
-              )}
-            </div>
-          )}
+  const renderReview = () => {
+    return (
+      <div className="review-container">
+        <h3>Revisa tus datos</h3>
+        <div className="review-grid">
+          {currentSection?.questions.map((question) => {
+            const value = formData[question.id];
+            return value ? (
+              <div key={question.id} className="review-item">
+                <span className="review-label">{question.label}:</span>
+                <span className="review-value">{value}</span>
+              </div>
+            ) : null;
+          })}
         </div>
-
-        <div className="step-navigation">
-          {currentStep > 0 && (
-            <button className="button secondary" onClick={handleBack}>
-              Anterior
-            </button>
-          )}
-          <button className="button" onClick={handleNext}>
-            {isLastStep ? 'Enviar' : 'Siguiente'}
+        <div className="review-actions">
+          <button className="button secondary" onClick={handleBack}>
+            Anterior
+          </button>
+          <button className="button" onClick={handleSubmit}>
+            {isSubmitting ? 'Enviando...' : 'Enviar'}
           </button>
         </div>
       </div>
@@ -358,13 +303,83 @@ export default function IntakeFormV2() {
         <div className="progress-bar">
           <div 
             className="progress-fill" 
-            style={{ width: `${(currentStep / (STEPS.length - 1)) * 100}%` }}
+            style={{ width: `${(currentStep / (SECTIONS.length - 1)) * 100}%` }}
           />
         </div>
       </div>
       
       <div className="intake-v2-content">
-        {renderStep()}
+        {showCongrats ? (
+          <div className="congratulations">
+            <div className="congratulations-content">
+              <img src="/logomainter.png" alt="Mainter" className="congratulations-logo" />
+              <h2>¡Gracias por completar el registro!</h2>
+              <p>Nuestro equipo se pondrá en contacto contigo pronto.</p>
+              <button className="button primary" onClick={() => {
+                setCurrentStep(0);
+                setFormData({});
+                setShowCongrats(false);
+              }}>
+                Registrar otro
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="step-container">
+            <div className="step-header">
+              <div className="step-number">
+                {currentSection?.title ? (
+                  <>
+                    <div className="section-label">{currentSection.title}</div>
+                    <div>{currentStep + 1} de {SECTIONS.length}</div>
+                  </>
+                ) : (
+                  <>
+                    <div className="step-divider">|</div>
+                    <div>{currentStep + 1} de {SECTIONS.length}</div>
+                  </>
+                )}
+              </div>
+              <h3>{currentSection?.title || ''}</h3>
+              {currentSection?.description && (
+                <p className="step-description">{currentSection.description}</p>
+              )}
+              
+              {hasQuestions && (
+                <div className="progress-info">
+                    {answeredCount} de {currentSection!.questions.length} respondidas
+                    <div className="progress-bar-small">
+                  <div 
+                        className="progress-fill-small" 
+                        style={{ width: `${(answeredCount / currentSection!.questions.length) * 100}%` }}
+                  />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {hasQuestions && (
+              <div className="question-container">
+                {currentSection!.questions.map((question) => (
+                  <div key={question.id} className="question-item">
+                    <div className="question-number">{answeredCount + 1}.o</div>
+                    <div className="question-text">{question.label}</div>
+                    {renderQuestion(question)}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="step-navigation">
+              <button className="button secondary" onClick={handleBack}>
+                Anterior
+              </button>
+              <button className="button" onClick={handleNext}>
+                {isLastSection ? 'Enviar' : 'Siguiente'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

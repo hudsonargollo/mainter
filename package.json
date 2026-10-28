@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "npm run build:client && npm run build:functions",
     "build:client": "vite build",
-    "build:functions": "copyfiles -u 1 \"functions/**/*.js\" dist",
+    "build:functions": "mkdir -p dist/functions/api && cp functions/api/submit.js dist/functions/api/",
     "preview": "vite preview"
   },
   "dependencies": {
