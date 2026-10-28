@@ -918,3 +918,76 @@ thead { background: rgba(18,32,43,0.03); }
     padding: 22px;
   }
 }
+
+/* Crops Field Styles */
+.crop-input-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.crop-input {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--mainter-border);
+  background: white;
+  color: var(--mainter-ink);
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.crop-input:focus {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.add-crop-button {
+  white-space: nowrap;
+  padding: 12px 16px;
+}
+
+.crop-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.crop-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--mainter-primary);
+  color: white;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.crop-tag-remove {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.crop-tag-remove:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.crop-tags-empty {
+  color: var(--muted);
+  font-size: 14px;
+  font-style: italic;
+}

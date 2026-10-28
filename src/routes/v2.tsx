@@ -55,8 +55,8 @@ const STEPS = [
   {
     id: 'crops',
     title: '¿Qué cultivos produce tu finca?',
-    description: 'Separa los cultivos con comas.',
-    field: { name: 'crops', label: 'Cultivos', type: 'text' as const, required: false },
+    description: 'Agrega cada cultivo. Usa la tecla Enter para añadir uno nuevo.',
+    field: { name: 'crops', label: 'Cultivos', type: 'crops' as const, required: false },
   },
   {
     id: 'contact',
@@ -165,6 +165,38 @@ export default function IntakeFormV2() {
     return ['Nadie asignado', ...activeSalesmen.map(s => s.name)];
   };
 
+  const getCropsInput = () => {
+    const existing = formData.crops || [];
+    return existing.map((value: string, idx: number) => (
+      <div key={idx} className="crop-tag">
+        <span className="crop-tag-text">{value}</span>
+        <button 
+          type="button" 
+          className="crop-tag-remove"
+          onClick={() => removeCrop(idx)}
+          aria-label={`Eliminar ${value}`}
+        >
+          ✕
+        </button>
+      </div>
+    ));
+  };
+
+  const addCrop = (value: string) => {
+    if (!value.trim()) return;
+    const trimmed = value.trim();
+    const existing = formData.crops || [];
+    if (existing.includes(trimmed)) return;
+    setFormData(prev => ({ ...prev, crops: [...(prev.crops || []), trimmed] }));
+  };
+
+  const removeCrop = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      crops: prev.crops.filter((_: unknown, i: number) => i !== index),
+    }));
+  };
+
   const renderStep = () => {
     if (showCongrats) {
       return (
@@ -257,15 +289,49 @@ export default function IntakeFormV2() {
           )}
           
           {step.type !== 'single_choice' && (
-            <input
-              type="text"
-              name={step.name}
-              value={formData[step.name] || ''}
-              onChange={(e) => handleInputChange(step.name, e.target.value)}
-              className="intake-input"
-              placeholder={step.label}
-              required={step.required}
-            />
+            <div className="generic-input-container">
+              {step.type === 'crops' && (
+                <>
+                  <div className="crop-input-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Escribe un cultivo y presiona Enter"
+                      value={formData.cropsInput || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, cropsInput: e.target.value }))}
+                      onKeyUp={(e) => {
+                        if (e.key === 'Enter' && formData.cropsInput) {
+                          addCrop(formData.cropsInput);
+                          setFormData(prev => ({ ...prev, cropsInput: '' }));
+                        }
+                      }}
+                      className="intake-input crop-input"
+                    />
+                    <button 
+                      type="button" 
+                      className="button add-crop-button"
+                      onClick={() => addCrop(formData.cropsInput)}
+                    >
+                      + Añadir
+                    </button>
+                  </div>
+                  <div className="crop-tags">
+                    {getCropsInput() || <span className="crop-tags-empty">Sin cultivos agregados</span>}
+                  </div>
+                </>
+              )}
+              
+              {step.type !== 'crops' && (
+                <input
+                  type="text"
+                  name={step.name}
+                  value={formData[step.name] || ''}
+                  onChange={(e) => handleInputChange(step.name, e.target.value)}
+                  className="intake-input"
+                  placeholder={step.label}
+                  required={step.required}
+                />
+              )}
+            </div>
           )}
         </div>
 
