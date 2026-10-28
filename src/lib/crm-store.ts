@@ -70,6 +70,28 @@ export async function deleteSalesman(id: string) {
   await writeSalesmen(salesmen.filter((s) => s.id !== id));
 }
 
+// Seed initial salesmen
+export async function seedInitialSalesmen() {
+  const existing = await readSalesmen();
+  if (existing.length > 0) return existing;
+  
+  const initialSalesmen: Salesman[] = [
+    { id: uid(), name: 'Acesor José', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Juan', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor María', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Pedro', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Ana', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Carlos', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Laura', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Miguel', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Sofía', email: '', phone: '', commissionRate: 5, active: true },
+    { id: uid(), name: 'Acesor Diego', email: '', phone: '', commissionRate: 5, active: true },
+  ];
+  
+  await writeSalesmen(initialSalesmen);
+  return initialSalesmen;
+}
+
 // Sales metrics
 export async function getSalesMetrics() {
   const [salesmen, customers, interactions] = await Promise.all([
