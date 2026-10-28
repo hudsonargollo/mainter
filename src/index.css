@@ -723,7 +723,7 @@ thead { background: rgba(18,32,43,0.03); }
 
 .step-number {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(18, 32, 43, 0.7);
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -731,14 +731,14 @@ thead { background: rgba(18,32,43,0.03); }
 .step-header h3 {
   font-size: 20px;
   font-weight: 700;
-  color: #00ccff;
+  color: #12202b;
   margin: 0 0 6px 0;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .step-description {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #12202b;
   margin: 0;
 }
 
@@ -751,7 +751,7 @@ thead { background: rgba(18,32,43,0.03); }
   background: rgba(0,0,0,0.15);
   border-radius: var(--radius-sm);
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #12202b;
   margin-bottom: 20px;
 }
 
@@ -795,7 +795,7 @@ thead { background: rgba(18,32,43,0.03); }
 .question-number {
   font-size: 11px;
   font-weight: 700;
-  color: #00ccff;
+  color: #12202b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -812,8 +812,8 @@ thead { background: rgba(18,32,43,0.03); }
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -843,7 +843,7 @@ thead { background: rgba(18,32,43,0.03); }
   padding: 10px 14px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
@@ -859,7 +859,7 @@ thead { background: rgba(18,32,43,0.03); }
 
 .choice-option-text {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #12202b;
 }
 
 .choice-option--bad {
@@ -891,6 +891,10 @@ thead { background: rgba(18,32,43,0.03); }
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.step-navigation .button.primary {
+  color: white !important;
+}
+
 .add-crop-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
@@ -912,7 +916,7 @@ thead { background: rgba(18,32,43,0.03); }
   border: 1px solid rgba(0, 204, 255, 0.2);
   border-radius: 999px;
   font-size: 12px;
-  color: #00ccff;
+  color: #12202b;
 }
 
 .crop-tag-remove {
@@ -972,7 +976,7 @@ thead { background: rgba(18,32,43,0.03); }
 
 .step-navigation .button.primary {
   background: linear-gradient(135deg, #00ccff, #0077b3);
-  color: white;
+  color: white !important;
 }
 
 .step-navigation .button.primary:hover {
@@ -988,14 +992,14 @@ thead { background: rgba(18,32,43,0.03); }
 .welcome-screen h3 {
   font-size: 22px;
   font-weight: 700;
-  color: #00ccff;
+  color: #12202b;
   margin: 0 0 12px 0;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .welcome-screen p {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #12202b;
   margin: 0 0 20px 0;
 }
 
@@ -1030,14 +1034,14 @@ thead { background: rgba(18,32,43,0.03); }
 .congratulations h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #00ccff;
+  color: #12202b;
   margin: 0 0 12px 0;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .congratulations p {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #12202b;
   margin: 0 0 24px 0;
 }
 
@@ -1070,15 +1074,19 @@ thead { background: rgba(18,32,43,0.03); }
   border-left: 3px solid #00ccff;
 }
 
+.review-item .review-value {
+  color: #12202b !important;
+}
+
 .review-label {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #12202b;
 }
 
 .review-value {
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: #12202b;
 }
 
 .review-actions {
@@ -1131,14 +1139,14 @@ thead { background: rgba(18,32,43,0.03); }
 .welcome-screen h3 {
   font-size: 22px;
   font-weight: 700;
-  color: #00ccff;
+  color: #12202b;
   margin: 0 0 12px 0;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .welcome-screen p {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #12202b;
   margin: 0 0 20px 0;
 }
 
