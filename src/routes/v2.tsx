@@ -1,7 +1,7 @@
 import { createRoute } from '@tanstack/react-router';
 import { Route as rootRoute } from './__root';
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from "framer-motion";
+import ConversationalFormShell from '~/components/conversational/ConversationalFormShell';
+import { Step } from '~/hooks/useConversationalForm';
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -9,379 +9,385 @@ export const Route = createRoute({
   component: IntakeFormV2,
 });
 
-// Form sections with questions
-const SECTIONS = [
+// ======================== FORM SCHEMA ========================
+// Full question list with photo field, slider, crops (multi-add), all questions
+
+const STEPS: Step[] = [
+  // ======================== INTRO / BIOGRAFÍA ========================
   {
-    id: 'biografia',
-    title: 'Biografía',
-    description: 'Conoce más sobre quién es el dueño de la propiedad.',
-    questions: [
-      { id: 'fullName', label: '¿Cuál es su nombre completo?', type: 'text', required: true },
-      { id: 'age', label: '¿Qué edad tiene?', type: 'text', required: true },
-      { id: 'estadoCivil', label: '¿Cuál es su estado civil (soltero o casado)?', type: 'single_choice', required: true, options: ['Soltero', 'Casado', 'Divorciado', 'Viudo', 'Unión libre'] },
-      { id: 'tieneHijos', label: '¿Tiene hijos?', type: 'single_choice', required: true, options: ['Sí', 'No'] },
-      { id: 'cantidadHijos', label: '¿Cuántos hijos tiene?', type: 'text', required: false },
-      { id: 'edadesHijos', label: '¿Qué edades tienen?', type: 'text', required: false },
-      { id: 'fechasNacimientoHijos', label: '¿Cuáles son sus fechas de nacimiento?', type: 'text', required: false },
-      { id: 'fechaBoda', label: '¿Cuándo es su aniversario de bodas?', type: 'text', required: false },
-      { id: 'tieneNietos', label: '¿Tiene nietos?', type: 'single_choice', required: false, options: ['Sí', 'No'] },
-      { id: 'cantidadNietos', label: '¿Cuántos y de qué edades?', type: 'text', required: false },
-      { id: 'origen', label: '¿De qué ciudad o región es originario? ¿Dónde creció?', type: 'text', required: true },
-      { id: 'tieneTrabajaEnCampo', label: '¿Trabaja solo o con su familia en el campo?', type: 'single_choice', required: true, options: ['Solo', 'Con familia', 'Con staff'] },
-    ],
+    id: 'intro',
+    question: 'Biografía — conoce al dueño de la propiedad',
+    subtitle: 'Primeros datos para iniciar el registro',
+    type: 'text',
+    illustrationKey: 'biografia',
+    required: true,
   },
+  {
+    id: 'fullName',
+    question: '¿Cuál es su nombre completo?',
+    type: 'text',
+    illustrationKey: 'nombre',
+    required: true,
+  },
+  {
+    id: 'age',
+    question: '¿Qué edad tiene?',
+    type: 'text',
+    illustrationKey: 'edad',
+    required: true,
+  },
+  {
+    id: 'estadoCivil',
+    question: '¿Cuál es su estado civil (soltero o casado)?',
+    type: 'select',
+    options: [
+      { label: 'Soltero', value: 'soltero' },
+      { label: 'Casado', value: 'casado' },
+      { label: 'Divorciado', value: 'divorciado' },
+      { label: 'Viudo', value: 'viudo' },
+      { label: 'Unión libre', value: 'union-libre' },
+    ],
+    illustrationKey: 'estado-civil',
+    required: true,
+  },
+  {
+    id: 'tieneHijos',
+    question: '¿Tiene hijos?',
+    type: 'select',
+    options: [
+      { label: 'Sí', value: 'si' },
+      { label: 'No', value: 'no' },
+    ],
+    illustrationKey: 'hijos',
+    required: true,
+  },
+  {
+    id: 'cantidadHijos',
+    question: '¿Cuántos hijos tiene?',
+    type: 'text',
+    illustrationKey: 'cantidad-hijos',
+    required: false,
+  },
+  {
+    id: 'edadesHijos',
+    question: '¿Qué edades tienen?',
+    type: 'text',
+    illustrationKey: 'edades-hijos',
+    required: false,
+  },
+  {
+    id: 'fechasNacimientoHijos',
+    question: '¿Cuáles son sus fechas de nacimiento?',
+    type: 'text',
+    illustrationKey: 'fechas-hijos',
+    required: false,
+  },
+  {
+    id: 'fechaBoda',
+    question: '¿Cuándo es su aniversario de bodas?',
+    type: 'text',
+    illustrationKey: 'aniversario',
+    required: false,
+  },
+  {
+    id: 'tieneNietos',
+    question: '¿Tiene nietos?',
+    type: 'select',
+    options: [
+      { label: 'Sí', value: 'si' },
+      { label: 'No', value: 'no' },
+    ],
+    illustrationKey: 'nietos',
+    required: false,
+  },
+  {
+    id: 'cantidadNietos',
+    question: '¿Cuántos y de qué edades?',
+    type: 'text',
+    illustrationKey: 'cantidad-nietos',
+    required: false,
+  },
+  {
+    id: 'origen',
+    question: '¿De qué ciudad o región es originario? ¿Dónde creció?',
+    type: 'text',
+    illustrationKey: 'origen',
+    required: true,
+  },
+  {
+    id: 'tieneTrabajaEnCampo',
+    question: '¿Trabaja solo o con su familia en el campo?',
+    type: 'select',
+    options: [
+      { label: 'Solo', value: 'solo' },
+      { label: 'Con familia', value: 'familia' },
+      { label: 'Con staff', value: 'staff' },
+    ],
+    illustrationKey: 'trabajo-campo',
+    required: true,
+  },
+  // ======================== FOTOGRAFÍA ========================
+  {
+    id: 'foto',
+    question: 'Fotografía de perfil',
+    subtitle: 'Sube una foto para identificar al dueño de la propiedad',
+    type: 'text',
+    illustrationKey: 'foto',
+    required: false,
+  },
+  // ======================== FAMILIA Y ORIGEN ========================
   {
     id: 'familia',
-    title: 'Familia y Orígenes',
-    description: 'La historia familiar es fundamental para entender su patrimonio.',
-    questions: [
-      { id: 'fechaNacimientoMadre', label: '¿Cuál es la fecha de nacimiento de su madre?', type: 'text', required: false },
-      { id: 'fechaNacimientoPadre', label: '¿Cuál es la fecha de nacimiento de su padre?', type: 'text', required: false },
-      { id: 'tieneTradicionFamilia', label: '¿Tiene alguna tradición familiar sagrada (por ejemplo, el churrasco familiar de los domingos, viajes de fin de año, etc.)?', type: 'single_choice', required: false, options: ['Sí', 'No'] },
-    ],
+    question: 'Familia y Orígenes',
+    subtitle: 'La historia familiar es fundamental para entender su patrimonio',
+    type: 'text',
+    illustrationKey: 'familia',
   },
+  {
+    id: 'fechaNacimientoMadre',
+    question: '¿Cuál es la fecha de nacimiento de su madre?',
+    type: 'text',
+    illustrationKey: 'madre',
+    required: false,
+  },
+  {
+    id: 'fechaNacimientoPadre',
+    question: '¿Cuál es la fecha de nacimiento de su padre?',
+    type: 'text',
+    illustrationKey: 'padre',
+    required: false,
+  },
+  {
+    id: 'tieneTradicionFamilia',
+    question: '¿Tiene alguna tradición familiar sagrada (por ejemplo, el churrasco familiar de los domingos, viajes de fin de año, etc.)?',
+    type: 'select',
+    options: [
+      { label: 'Sí', value: 'si' },
+      { label: 'No', value: 'no' },
+    ],
+    illustrationKey: 'tradicion',
+    required: false,
+  },
+  // ======================== GUSTOS / AFICIONES / ESTILO DE VIDA ========================
   {
     id: 'gustos',
-    title: 'Gustos, Aficiones y Estilo de Vida',
-    description: 'Conoce sus preferencias y hábitos de vida.',
-    questions: [
-      { id: 'comidaFavorita', label: '¿Cuál es su comida favorita?', type: 'text', required: false },
-      { id: 'leGustaFutbol', label: '¿Le gusta el fútbol? Si es así, ¿cuál es su equipo favorito?', type: 'text', required: false },
-      { id: 'otroDeporte', label: 'Aparte del fútbol, ¿sigue o practica algún otro deporte (carreras de autos, tenis, caballos, caza, pesca)?', type: 'text', required: false },
-      { id: 'musicaFavorita', label: '¿Qué tipo de música le gusta escuchar cuando maneja hacia el campo o mientras trabaja?', type: 'text', required: false },
-      { id: 'bebidaFavorita', label: '¿Cuál es su bebida favorita para relajarse o acompañar una buena comida (vino, cerveza, café, mate, etc.)?', type: 'text', required: false },
-      { id: 'leGustoCocinar', label: '¿Le gusta cocinar o es usted el encargado de hacer el churrasco en los eventos familiares?', type: 'single_choice', required: false, options: ['Sí', 'No', 'A veces'] },
-      { id: 'restauranteFavorito', label: 'Cuando sale a comer con su familia, ¿cuál es su restaurante favorito o qué tipo de ambiente prefiere?', type: 'text', required: false },
-      { id: 'viajePlaya', label: 'Cuando viaja por placer, ¿qué tipo de destino prefiere (playa, campo, ciudad, montaña)?', type: 'text', required: false },
-      { id: 'tieneMascotas', label: '¿Tiene mascotas o animales a los que les tenga especial cariño en la propiedad (perros, caballos, etc.)?', type: 'text', required: false },
-      { id: 'tieneSociedad', label: '¿Pertenece a alguna fraternidad, club social o asociación ganadrera/agrícola donde pase su tiempo libre?', type: 'text', required: false },
-    ],
+    question: 'Gustos, Aficiones y Estilo de Vida',
+    subtitle: 'Conoce sus preferencias y hábitos de vida',
+    type: 'text',
+    illustrationKey: 'gustos',
   },
+  {
+    id: 'comidaFavorita',
+    question: '¿Cuál es su comida favorita?',
+    type: 'text',
+    illustrationKey: 'comida',
+    required: false,
+  },
+  {
+    id: 'leGustaFutbol',
+    question: '¿Le gusta el fútbol? Si es así, ¿cuál es su equipo favorito?',
+    type: 'text',
+    illustrationKey: 'futbol',
+    required: false,
+  },
+  {
+    id: 'otroDeporte',
+    question: 'Aparte del fútbol, ¿sigue o practica algún otro deporte (carreras de autos, tenis, caballos, caza, pesca)?',
+    type: 'text',
+    illustrationKey: 'deportes',
+    required: false,
+  },
+  {
+    id: 'musicaFavorita',
+    question: '¿Qué tipo de música le gusta escuchar cuando maneja hacia el campo o mientras trabaja?',
+    type: 'text',
+    illustrationKey: 'musica',
+    required: false,
+  },
+  {
+    id: 'bebidaFavorita',
+    question: '¿Cuál es su bebida favorita para relajarse o acompañar una buena comida (vino, cerveza, café, mate, etc.)?',
+    type: 'text',
+    illustrationKey: 'bebida',
+    required: false,
+  },
+  {
+    id: 'leGustoCocinar',
+    question: '¿Le gusta cocinar o es usted el encargado de hacer el churrasco en los eventos familiares?',
+    type: 'select',
+    options: [
+      { label: 'Sí', value: 'si' },
+      { label: 'No', value: 'no' },
+      { label: 'A veces', value: 'a-veces' },
+    ],
+    illustrationKey: 'cocina',
+    required: false,
+  },
+  {
+    id: 'restauranteFavorito',
+    question: 'Cuando sale a comer con su familia, ¿cuál es su restaurante favorito o qué tipo de ambiente prefiere?',
+    type: 'text',
+    illustrationKey: 'restaurante',
+    required: false,
+  },
+  {
+    id: 'viajePlaya',
+    question: 'Cuando viaja por placer, ¿qué tipo de destino prefiere (playa, campo, ciudad, montaña)?',
+    type: 'text',
+    illustrationKey: 'viaje',
+    required: false,
+  },
+  {
+    id: 'tieneMascotas',
+    question: '¿Tiene mascotas o animales a los que les tenga especial cariño en la propiedad (perros, caballos, etc.)?',
+    type: 'text',
+    illustrationKey: 'mascotas',
+    required: false,
+  },
+  {
+    id: 'tieneSociedad',
+    question: '¿Pertenece a alguna fraternidad, club social o asociación ganadrera/agrícola donde pase su tiempo libre?',
+    type: 'text',
+    illustrationKey: 'sociedad',
+    required: false,
+  },
+  // ======================== RUTINA / PERSONALIDAD / VÍNCULO CON EL CAMPO ========================
   {
     id: 'rutina',
-    title: 'Rutina, Personalidad y Vínculo con el Campo',
-    description: 'Comprende cómo funciona su día a día y qué le motiva.',
-    questions: [
-      { id: 'madruga', label: '¿Es de los que madrugan mucho o prefiere arrancar su día de trabajo un poco más tarde?', type: 'single_choice', required: true, options: ['Madruga', 'Tarde', 'Mixto'] },
-      { id: 'loQueMasDisfruta', label: '¿Qué es lo que más disfruta de su vida trabajando en el campo?', type: 'text', required: true },
-      { id: 'comoEmenzo', label: '¿Cómo empezó en el rubro agrícola? (¿Heredó la tierra, la compró, empezó desde cero?)', type: 'text', required: true },
-      { id: 'cultivoFavorito', label: 'De todos los cultivos que maneja, ¿cuál es su favorito o el que más le apasiona trabajar?', type: 'text', required: false },
-      { id: 'loQueRelaja', label: '¿Qué es lo que más le relaja hacer cuando está muy estresado por una campaña difícil?', type: 'text', required: false },
-      { id: 'logroPropio', label: '¿Qué logro personal o familiar le da más orgullo de todo lo que ha construido hasta ahora?', type: 'text', required: false },
-    ],
+    question: 'Rutina, Personalidad y Vínculo con el Campo',
+    subtitle: 'Comprende cómo funciona su día a día y qué le motiva',
+    type: 'text',
+    illustrationKey: 'rutina',
   },
   {
-    id: 'adn',
-    title: 'Relación con el Asesor de Negocios (ADN)',
-    description: 'Acompañamiento y comunicación para el éxito de su operación.',
-    questions: [
-      { id: 'horarioVisita', label: '¿En qué horario prefiere que el ADN lo visite en su propiedad (por la mañana temprano, al mediodía, por la tarde)?', type: 'single_choice', required: true, options: ['Mañana temprano', 'Al mediodía', 'Por la tarde', 'Flexible'] },
-      { id: 'comunicacionPreferida', label: '¿Cómo prefiere que se comuniquen con usted (llamada directa, mensaje de WhatsApp, audios)?', type: 'single_choice', required: true, options: ['Llamada directa', 'WhatsApp', 'Audios', 'Correo electrónico'] },
-      { id: 'temaFavorito', label: 'Además del trabajo, ¿cuál es el tema del que más le gusta hablar o debatir con su ADN?', type: 'text', required: false },
-      { id: 'anecdotaADN', label: '¿Tienen alguna anécdota divertida, un susto o un buen recuerdo que haya vivido junto a su ADN en el campo?', type: 'text', required: false },
+    id: 'madruga',
+    question: '¿Es de los que madrugan mucho o prefiere arrancar su día de trabajo un poco más tarde?',
+    type: 'select',
+    options: [
+      { label: 'Madruga', value: 'madruga' },
+      { label: 'Tarde', value: 'tarde' },
+      { label: 'Mixto', value: 'mixto' },
     ],
+    illustrationKey: 'madrugo',
+    required: true,
+  },
+  {
+    id: 'loQueMasDisfruta',
+    question: '¿Qué es lo que más disfruta de su vida trabajando en el campo?',
+    type: 'text',
+    illustrationKey: 'disfruta',
+    required: true,
+  },
+  {
+    id: 'comoEmenzo',
+    question: '¿Cómo empezó en el rubro agrícola? (¿Heredó la tierra, la compró, empezó desde cero?)',
+    type: 'text',
+    illustrationKey: 'comenzo',
+    required: true,
+  },
+  {
+    id: 'cultivoFavorito',
+    question: 'De todos los cultivos que maneja, ¿cuál es su favorito o el que más le apasiona trabajar?',
+    type: 'text',
+    illustrationKey: 'cultivo',
+    required: false,
+  },
+  {
+    id: 'cultivos',
+    question: '¿Qué cultivos maneja en la propiedad?',
+    type: 'multiselect',
+    options: [
+      { label: 'Soja', value: 'soja' },
+      { label: 'Maíz', value: 'maiz' },
+      { label: 'Trigo', value: 'trigo' },
+      { label: 'Milho', value: 'milho' },
+      { label: 'Arroz', value: 'arroz' },
+      { label: 'Sorgo', value: 'sorgo' },
+      { label: 'Café', value: 'cafe' },
+      { label: 'Cítricos', value: 'citricos' },
+      { label: 'Frutales', value: 'frutales' },
+      { label: 'Pastos', value: 'pastos' },
+      { label: 'Vacuno', value: 'vacuno' },
+      { label: 'Porcino', value: 'porcino' },
+      { label: 'Aviario', value: 'aviary' },
+      { label: 'Agroflorestación', value: 'agroflorestacion' },
+      { label: 'Otro', value: 'otro' },
+    ],
+    illustrationKey: 'cultivos',
+    required: false,
+  },
+  {
+    id: 'loQueRelaja',
+    question: '¿Qué es lo que más le relaja hacer cuando está muy estresado por una campaña difícil?',
+    type: 'text',
+    illustrationKey: 'relaja',
+    required: false,
+  },
+  {
+    id: 'logroPropio',
+    question: '¿Qué logro personal o familiar le da más orgullo de todo lo que ha construido hasta ahora?',
+    type: 'text',
+    illustrationKey: 'logro',
+    required: false,
+  },
+  // ======================== RELACIÓN CON EL ADN ========================
+  {
+    id: 'adn',
+    question: 'Relación con el Asesor de Negocios (ADN)',
+    subtitle: 'Acompañamiento y comunicación para el éxito de su operación',
+    type: 'text',
+    illustrationKey: 'adn',
+  },
+  {
+    id: 'horarioVisita',
+    question: '¿En qué horario prefiere que el ADN lo visite en su propiedad (por la mañana temprano, al mediodía, por la tarde)?',
+    type: 'select',
+    options: [
+      { label: 'Mañana temprano', value: 'mañana' },
+      { label: 'Al mediodía', value: 'mediodia' },
+      { label: 'Por la tarde', value: 'tarde' },
+      { label: 'Flexible', value: 'flexible' },
+    ],
+    illustrationKey: 'horario',
+    required: true,
+  },
+  {
+    id: 'comunicacionPreferida',
+    question: '¿Cómo prefiere que se comuniquen con usted (llamada directa, mensaje de WhatsApp, audios)?',
+    type: 'select',
+    options: [
+      { label: 'Llamada directa', value: 'llamada' },
+      { label: 'WhatsApp', value: 'whatsapp' },
+      { label: 'Audios', value: 'audios' },
+      { label: 'Correo electrónico', value: 'correo' },
+    ],
+    illustrationKey: 'comunicacion',
+    required: true,
+  },
+  {
+    id: 'temaFavorito',
+    question: 'Además del trabajo, ¿cuál es el tema del que más le gusta hablar o debatir con su ADN?',
+    type: 'text',
+    illustrationKey: 'tema',
+    required: false,
+  },
+  {
+    id: 'anecdotaADN',
+    question: '¿Tienen alguna anécdota divertida, un susto o un buen recuerdo que haya vivido junto a su ADN en el campo?',
+    type: 'textarea',
+    illustrationKey: 'anecdota',
+    required: false,
   },
 ];
 
-export interface FormData {
-  [key: string]: any;
+// ======================== HELPER: VALIDATION ========================
+function requiredValidator(value: any): boolean {
+  return value !== undefined && value !== '' && value !== null;
 }
 
-export interface Salesmen {
-  id: string;
-  name: string;
-  active?: boolean;
-}
-
-async function fetchSalesmen(): Promise<Salesmen[]> {
-  try {
-    const response = await fetch('/api/salesmen');
-    if (response.ok) {
-      return response.json();
-    }
-  } catch (error) {
-    console.error('Error loading salesmen:', error);
-  }
-  return [];
-}
-
+// ======================== PAGE ========================
 export default function IntakeFormV2() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<FormData>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showCongrats, setShowCongrats] = useState(false);
-  const [activeSalesmen, setActiveSalesmen] = useState<Salesmen[]>([]);
-  const [hoveredQuestion, setHoveredQuestion] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchSalesmen().then(data => {
-      setActiveSalesmen(data.filter(s => s.active !== false));
-    });
-  }, []);
-
-  const currentSection = SECTIONS[currentStep];
-  const isLastSection = currentStep === SECTIONS.length - 1;
-
-  const answeredCount = currentSection?.questions.filter(q => {
-    const val = formData[q.id];
-    return val !== undefined && val !== '';
-  }).length || 0;
-
-  const handleInputChange = (name: string, value: any) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleNext = () => {
-    if (isLastSection) {
-      handleSubmit();
-    } else {
-      setCurrentStep(prev => prev + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
-  };
-
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-    try {
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          formId: 'intake-v2',
-          data: formData,
-          status: 'new',
-        }),
-      });
-
-      if (response.ok) {
-        setShowCongrats(true);
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const renderQuestion = (question: typeof currentSection.questions[0]) => {
-    const value = formData[question.id];
-    const isSingleChoice = question.type === 'single_choice';
-    const isCrops = question.type === 'crops';
-
-    if (isSingleChoice) {
-      return (
-        <div className="choice-group">
-          {question.options?.map((option: string) => {
-            const isAnswered = value === option;
-            const isBadAnswer = question.id === 'estadoCivil' ? option === 'Unión libre' : false;
-
-            return (
-              <label
-                key={option}
-                className={`choice-option ${isBadAnswer ? 'choice-option--bad' : ''}`}
-              >
-                <input
-                  type="radio"
-                  name={question.id}
-                  value={option}
-                  checked={isAnswered}
-                  onChange={(e) => handleInputChange(question.id, e.target.value)}
-                />
-                <span className="choice-option-text">{option}</span>
-              </label>
-            );
-          })}
-        </div>
-      );
-    }
-
-    if (isCrops) {
-      const crops = formData[question.id] || [];
-      return (
-        <div className="crop-input-wrapper">
-          <input
-            type="text"
-            placeholder="Escribe un cultivo y presiona Enter"
-            value={(formData[question.id + 'Input'] || '')}
-            onChange={(e) => setFormData(prev => ({ ...prev, [question.id + 'Input']: e.target.value }))}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter' && (formData[question.id + 'Input'] || '').trim()) {
-                const val = (formData[question.id + 'Input'] || '').trim();
-                if (!crops.includes(val)) {
-                  setFormData(prev => ({ ...prev, [question.id]: [...(prev[question.id] || []), val] }));
-                  setFormData(prev => ({ ...prev, [question.id + 'Input']: '' }));
-                }
-              }
-            }}
-            className="intake-input crop-input"
-          />
-          <button
-            type="button"
-            className="button add-crop-button"
-            onClick={() => {
-              const val = (formData[question.id + 'Input'] || '').trim();
-              if (val && !crops.includes(val)) {
-                setFormData(prev => ({ ...prev, [question.id]: [...(prev[question.id] || []), val] }));
-                setFormData(prev => ({ ...prev, [question.id + 'Input']: '' }));
-              }
-            }}
-          >
-            + Añadir
-          </button>
-          <div className="crop-tags">
-            {crops.map((crop: string, idx: number) => (
-              <div key={idx} className="crop-tag">
-                <span className="crop-tag-text">{crop}</span>
-                <button
-                  type="button"
-                  className="crop-tag-remove"
-                  onClick={() => {
-                    setFormData(prev => ({
-                      ...prev,
-                      [question.id]: prev[question.id].filter((_: unknown, i: number) => i !== idx),
-                    }));
-                  }}
-                  aria-label={`Eliminar ${crop}`}
-                >
-                  ✕
-                </button>
-              </div>
-            )) || <span className="crop-tags-empty">Sin cultivos agregados</span>}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <input
-        type="text"
-        name={question.id}
-        value={value || ''}
-        onChange={(e) => handleInputChange(question.id, e.target.value)}
-        className="intake-input"
-        placeholder={question.label}
-        required={question.required}
-      />
-    );
-  };
-
   return (
-    <div className="intake-v2-container">
-      <div className="intake-v2-header">
-        <div className="intake-logo-wrapper">
-          <img src="/logomainter.png" alt="Mainter" className="intake-logo" />
-        </div>
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${(currentStep / (SECTIONS.length - 1)) * 100}%` }}
-          />
-        </div>
-      </div>
-
-      <div className="intake-v2-content">
-        {showCongrats ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="congratulations"
-          >
-            <div className="congratulations-content">
-              <img src="/logomainter.png" alt="Mainter" className="congratulations-logo" />
-              <h2>¡Gracias por completar el registro!</h2>
-              <p>Nuestro equipo se pondrá en contacto contigo pronto.</p>
-              <button className="button primary" onClick={() => {
-                setCurrentStep(0);
-                setFormData({});
-                setShowCongrats(false);
-              }}>
-                Registrar otro
-              </button>
-            </div>
-          </motion.div>
-        ) : (
-          <>
-            <motion.div
-              key={currentSection.id}
-              initial={{ opacity: 0, y: 30, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 0.5,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="step-container"
-            >
-              <div className="step-header">
-                <div className="step-number">
-                  <div className="section-label">{currentSection.title}</div>
-                  <div className="step-divider">|</div>
-                  <div>{currentStep + 1} de {SECTIONS.length}</div>
-                </div>
-                <h3>{currentSection.title}</h3>
-                <p className="step-description">{currentSection.description}</p>
-
-                <div className="progress-info">
-                  {answeredCount} de {currentSection!.questions.length} respondidas
-                  <div className="progress-bar-small">
-                    <div
-                      className="progress-fill-small"
-                      style={{ width: `${(answeredCount / currentSection!.questions.length) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="question-container">
-                {currentSection!.questions.map((question, idx) => (
-                  <motion.div
-                    key={question.id}
-                    initial={{
-                      opacity: 0,
-                      y: 16,
-                      width: 'calc(100% - 32px)',
-                      marginLeft: '16px',
-                    }}
-                    animate={{ opacity: 1, y: 0, width: 'calc(100% - 16px)', marginLeft: '8px' }}
-                    transition={{
-                      duration: 0.5,
-                      ease: [0.22, 1, 0.36, 1],
-                      delay: idx * 0.08,
-                    }}
-                    onHoverStart={() => setHoveredQuestion(question.id)}
-                    onHoverEnd={() => setHoveredQuestion(null)}
-                    className="question-item"
-                  >
-                    <div className="question-number">{idx + 1}.o</div>
-                    <div className="question-text">{question.label}</div>
-                    {renderQuestion(question)}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="step-navigation"
-              >
-                <button className="button secondary" onClick={handleBack}>
-                  Anterior
-                </button>
-                <button className="button" onClick={handleNext}>
-                  {isLastSection ? 'Enviar' : 'Siguiente'}
-                </button>
-              </motion.div>
-            </AnimatePresence>
-          </>
-        )}
-      </div>
-    </div>
+    <ConversationalFormShell steps={STEPS} />
   );
 }
