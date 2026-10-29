@@ -809,6 +809,33 @@ body {
 }
 
 /* ============================================================
+   CONVERSATIONAL WIZARD v2 — missing utility classes
+   The v2 form uses Tailwind-style utilities (grid, gap-*).
+   This project has no Tailwind installed, so the missing
+   utilities are defined here as fallbacks.
+   ============================================================ */
+
+.grid {
+  display: grid;
+}
+
+.gap-3 {
+  gap: 0.75rem; /* 12px */
+}
+
+.gap-2 {
+  gap: 0.5rem; /* 8px */
+}
+
+.gap-4 {
+  gap: 1rem; /* 16px */
+}
+
+.gap-5 {
+  gap: 1.25rem; /* 20px */
+}
+
+/* ============================================================
    CONVERSATIONAL WIZARD v2
    Maps the v2 component class names to the design-system
    tokens defined above (glassmorphism on dark slate).
