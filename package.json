@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "npm run build:client && npm run build:functions",
     "build:client": "vite build",
-    "build:functions": "mkdir -p dist/functions/api && cp functions/api/submit.js dist/functions/api/",
+    "build:functions": "npx esbuild functions/_worker.js --bundle --format=esm --platform=browser --outfile=dist/_worker.js",
     "preview": "vite preview"
   },
   "dependencies": {
