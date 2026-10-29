@@ -17,35 +17,31 @@ export default function ConversationalFormShell({ steps }: Props) {
     nextStep,
     prevStep,
     isFirstStep,
-    isLastStep,
   } = useConversationalForm(steps);
 
   const [inputValue, setInputValue] = React.useState('');
-  const [showTyping, setShowTyping] = React.useState(false);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && inputValue.trim()) {
       nextStep(inputValue.trim());
       setInputValue('');
-      setShowTyping(false);
     }
   };
 
   const handleSelect = (value: string) => {
     nextStep(value);
     setInputValue('');
-    setShowTyping(false);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full bg-slate-950 text-slate-100 overflow-hidden">
+    <div className="mainter-split">
       {/* Left Column: Dynamic Illustration Panel */}
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 md:p-10 bg-slate-900/40 border-r border-slate-800/60">
-        <div className="relative w-full max-w-[260px] md:max-w-[380px] h-[220px] md:h-[320px]">
+      <div className="illustration-panel">
+        <div className="illustration-frame">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep?.illustrationKey}
@@ -53,15 +49,15 @@ export default function ConversationalFormShell({ steps }: Props) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -24 }}
               transition={{ duration: 0.45, ease: 'easeInOut' }}
-              className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-indigo-500/20 via-purple-500/10 to-cyan-500/20 border border-indigo-500/30 shadow-2xl flex items-center justify-center overflow-hidden"
+              className="illustration-glow"
             >
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,204,255,0.08)_0%,_transparent_70%)]" />
-                <div className="relative text-center px-4">
-                  <div className="w-14 h-14 md:w-20 md:h-20 mx-auto rounded-2xl bg-gradient-to-br from-indigo-500/30 to-purple-500/30 border border-indigo-500/40 flex items-center justify-center text-white text-2xl md:text-3xl font-bold shadow-lg">
+              <div className="illustration-inner">
+                <div className="illustration-spot" />
+                <div className="illustration-body">
+                  <div className="illustration-badge">
                     {currentStep?.illustrationKey?.charAt(0) || '?'}
                   </div>
-                  <p className="mt-3 text-xs md:text-sm text-indigo-300/80 font-medium">
+                  <p className="illustration-caption">
                     {currentStep?.illustrationKey}
                   </p>
                 </div>
@@ -70,27 +66,27 @@ export default function ConversationalFormShell({ steps }: Props) {
           </AnimatePresence>
         </div>
 
-        <div className="mt-5 text-center">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <div className="step-hint">
+          <span className="step-hint-text">
             Paso {currentIndex + 1} de {totalSteps}
           </span>
         </div>
 
-        <div className="mt-8 p-4 rounded-2xl bg-slate-900/60 border border-slate-800/50 text-xs text-slate-500">
-          <p className="font-semibold text-slate-400 mb-1">Movimiento animado</p>
+        <div className="hint-card">
+          <p className="hint-card-title">Movimiento animado</p>
           <p>transiciones suaves con Framer Motion</p>
         </div>
       </div>
 
       {/* Right Column: Conversational Question Engine */}
-      <div className="w-full md:w-1/2 flex flex-col justify-between p-6 md:p-12 bg-slate-950">
-        <div className="flex justify-end">
+      <div className="question-panel">
+        <div className="back-link-wrap">
           {!isFirstStep && (
             <button
               onClick={prevStep}
-              className="text-sm text-slate-500 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-slate-900 border border-slate-800"
+              className="back-link"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+              <svg className="back-link-icon" fill="none" stroke="currentColor" strokeWidth={2}>
                 <polyline points="15 19 9 13 15 7" />
               </svg>
               Atrás
@@ -98,7 +94,7 @@ export default function ConversationalFormShell({ steps }: Props) {
           )}
         </div>
 
-        <div className="my-auto max-w-lg w-full mx-auto">
+        <div className="question-body">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentStep?.id}
@@ -107,61 +103,55 @@ export default function ConversationalFormShell({ steps }: Props) {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: direction * -40, scale: 0.95 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-6"
+              className="question-space"
             >
               {/* Question number & title */}
-              <div>
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600/20 text-xs font-bold text-indigo-400">
-                    {currentIndex + 1}
-                  </span>
-                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
-                    {currentStep?.question}
-                  </h2>
+              <div className="step-header">
+                <div className="step-number">
+                  <span className="step-number-count">{currentIndex + 1}</span>
+                  <span className="step-number-label">Paso</span>
                 </div>
+                <h2 className="step-title">{currentStep?.question}</h2>
                 {currentStep?.subtitle && (
-                  <p className="text-sm text-slate-400 mt-2 ml-11">{currentStep.subtitle}</p>
+                  <p className="step-description">{currentStep.subtitle}</p>
                 )}
               </div>
 
               {/* Input Render Switch */}
-              <div className="space-y-4">
+              <div className="question-items">
                 {currentStep?.type === 'text' || currentStep?.type === 'email' || currentStep?.type === 'password' ? (
-                  <div className="relative">
+                  <div className="text-input-row">
                     <input
                       type={currentStep.type}
                       value={inputValue}
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDown}
                       autoFocus
-                      placeholder="Escribe tu respuesta aquí..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                      placeholder={currentStep?.placeholder || 'Escribe tu respuesta aquí...'}
+                      className="intake-input"
                     />
                     <button
                       onClick={() => {
                         if (inputValue.trim()) {
                           nextStep(inputValue.trim());
                           setInputValue('');
-                          setShowTyping(false);
                         }
                       }}
-                      className="absolute right-2 top-2 px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors"
+                      className="button primary"
                     >
                       OK
                     </button>
                   </div>
                 ) : currentStep?.type === 'select' ? (
-                  <div className="grid grid-cols-1 gap-3">
-                    {currentStep.options?.map((opt) => (
+                  <div className="grid gap-3">
+                    {currentStep.options?.map((opt: { label: string; value: string }) => (
                       <button
                         key={opt.value}
                         onClick={() => handleSelect(opt.value)}
-                        className="w-full text-left px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:bg-slate-850 transition-all flex items-center justify-between group"
+                        className="choice-option"
                       >
-                        <span className="text-white text-sm">{opt.label}</span>
-                        <span className="text-xs text-slate-500 group-hover:text-indigo-400 transition-colors">
-                          OK
-                        </span>
+                        <span className="choice-option-text">{opt.label}</span>
+                        <span className="choice-option-action">OK</span>
                       </button>
                     ))}
                   </div>
@@ -172,23 +162,23 @@ export default function ConversationalFormShell({ steps }: Props) {
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                     autoFocus
-                    placeholder="Escribe tu respuesta aquí..."
+                    placeholder={currentStep?.placeholder || 'Escribe tu respuesta aquí...'}
                     rows={4}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all resize-none"
+                    className="intake-input"
                   />
                 ) : null}
                 {currentStep?.type === 'multiselect' ? (
-                  <div className="grid grid-cols-1 gap-2">
-                    {currentStep.options?.map((opt) => (
+                  <div className="question-container">
+                    {currentStep.options?.map((opt: { label: string; value: string }) => (
                       <label
                         key={opt.value}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-indigo-500 transition-all"
+                        className="choice-option"
                       >
                         <input
                           type="checkbox"
-                          className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-500 focus:ring-indigo-500"
+                          className="choice-option-check"
                         />
-                        <span className="text-white text-sm">{opt.label}</span>
+                        <span className="choice-option-text">{opt.label}</span>
                       </label>
                     ))}
                   </div>
@@ -199,9 +189,9 @@ export default function ConversationalFormShell({ steps }: Props) {
         </div>
 
         {/* Footer progress bar */}
-        <div className="w-full bg-slate-900/60 h-1.5 rounded-full overflow-hidden">
+        <div className="progress-bar">
           <motion.div
-            className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full"
+            className="progress-fill"
             initial={{ width: 0 }}
             animate={{ width: `${((currentIndex + 1) / totalSteps) * 100}%` }}
             transition={{ duration: 0.4, ease: 'easeInOut' }}
