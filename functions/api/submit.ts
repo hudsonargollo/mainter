@@ -26,7 +26,7 @@ export default {
     }
 
     try {
-      const body = await request.json();
+      const body = JSON.parse(await request.text());
       if (!body.formId || !body.data) {
         return new Response(JSON.stringify({ error: 'Invalid payload' }), {
           status: 400,

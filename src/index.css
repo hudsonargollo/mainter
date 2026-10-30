@@ -1,36 +1,40 @@
 /* ============================================================
-   DESIGN SYSTEM — glassmorphism on dark slate
-   Tokens from design-standards skill; colors from brand;
-   applied per the 6 standards. Rounded-3xl containers.
+   DESIGN SYSTEM — Mainter (Bolivia / mainter.com.bo)
+   Brand tokens: Royal Blue #174A9C + Harvest Gold #FFCF21
+   Glassmorphism on deep navy, pastel medical cards, rounded-3xl.
    ============================================================ */
 
 :root {
-  /* ---------- Color tokens (primitive + semantic) ---------- */
-  --color-bg-900: #0b162a;      /* dark slate base */
-  --color-bg-800: #112240;      /* slate mid */
-  --color-bg-700: #1e3a6b;      /* deep navy */
-  --color-bg-gradient: linear-gradient(165deg, #0b162a 0%, #112240 50%, #1e3a6b 100%);
+  /* ---------- Color tokens (brand: Royal Blue + Harvest Gold) ---------- */
+  --color-bg-900: #0B172A;      /* deep navy base (brand) */
+  --color-bg-800: #112650;      /* navy mid */
+  --color-bg-700: #16386E;      /* deep royal blue */
+  --color-bg-gradient: linear-gradient(165deg, #0B172A 0%, #112650 50%, #16386E 100%);
 
-  --color-accent: #e6ff57;      /* signature brand accent (lime) */
-  --color-accent-dark: #a8d530;
-  --color-accent-soft: rgba(230, 255, 87, 0.15);
+  --color-accent: #FFCF21;      /* signature brand accent (Harvest Gold) */
+  --color-accent-dark: #E4A800;
+  --color-accent-soft: rgba(255, 207, 33, 0.12);
 
-  --color-glass: rgba(255, 255, 255, 0.10);   /* frosted white */
-  --color-glass-hover: rgba(255, 255, 255, 0.18);
-  --color-glass-border: rgba(255, 255, 255, 0.16);
+  --color-royal: #174A9C;       /* brand primary blue */
+  --color-royal-dark: #0F3570;
+  --color-royal-soft: rgba(23, 74, 156, 0.12);
 
-  --color-ink: #e8f1ff;         /* light ink for dark bg */
-  --color-ink-subdued: #b8cbe0;
-  --color-ink-muted: #7a8fb0;
+  --color-glass: rgba(255, 255, 255, 0.07);   /* frosted white, darker */
+  --color-glass-hover: rgba(255, 255, 255, 0.12);
+  --color-glass-border: rgba(255, 255, 255, 0.14);
 
-  --color-primary: #00ccff;     /* blue primary (accent on dark) */
-  --color-primary-dark: #0077b3;
-  --color-primary-soft: rgba(0, 204, 255, 0.15);
+  --color-ink: #F6F3EE;         /* warm ivory for dark navy */
+  --color-ink-subdued: #C9C2B4;
+  --color-ink-muted: #9A9082;
 
-  --color-surface: #ffffff;
-  --color-surface-alt: #f0f4f8;
+  --color-primary: #174A9C;     /* brand primary blue */
+  --color-primary-dark: #0E2E6B;
+  --color-primary-soft: rgba(23, 74, 156, 0.12);
 
-  /* ---------- Spacing (consistent scale) ---------- */
+  --color-surface: #F6F3EE;     /* warm ivory card surface */
+  --color-surface-alt: #EDE7DB;
+
+  /* ---------- Spacing ---------- */
   --space-2: 4px;
   --space-3: 8px;
   --space-4: 12px;
@@ -42,7 +46,7 @@
   --space-14: 48px;
   --space-16: 64px;
 
-  /* ---------- Radius (rounded-3xl convention) ---------- */
+  /* ---------- Radius (rounded-3xl) ---------- */
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
@@ -72,9 +76,9 @@
   --line-height-heading: 1.15;
 
   /* ---------- Effects ---------- */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.12);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.18);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.24);
+  --shadow-sm: 0 2px 8px rgba(11, 23, 42, 0.14);
+  --shadow-md: 0 10px 30px rgba(11, 23, 42, 0.20);
+  --shadow-lg: 0 16px 48px rgba(11, 23, 42, 0.26);
 
   --blur-sm: blur(8px);
   --blur-md: blur(16px);
@@ -809,36 +813,9 @@ body {
 }
 
 /* ============================================================
-   CONVERSATIONAL WIZARD v2 — missing utility classes
-   The v2 form uses Tailwind-style utilities (grid, gap-*).
-   This project has no Tailwind installed, so the missing
-   utilities are defined here as fallbacks.
-   ============================================================ */
-
-.grid {
-  display: grid;
-}
-
-.gap-3 {
-  gap: 0.75rem; /* 12px */
-}
-
-.gap-2 {
-  gap: 0.5rem; /* 8px */
-}
-
-.gap-4 {
-  gap: 1rem; /* 16px */
-}
-
-.gap-5 {
-  gap: 1.25rem; /* 20px */
-}
-
-/* ============================================================
    CONVERSATIONAL WIZARD v2
    Maps the v2 component class names to the design-system
-   tokens defined above (glassmorphism on dark slate).
+   tokens defined above (glassmorphism on Mainter brand).
    ============================================================ */
 
 .mainter-split {
@@ -876,9 +853,9 @@ body {
   inset: 0;
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg,
-    rgba(79,70,229,0.20) 0%,
-    rgba(139,92,246,0.10) 50%,
-    rgba(0,204,255,0.20) 100%);
+    rgba(23, 74, 156, 0.20) 0%,
+    rgba(10, 34, 70, 0.12) 50%,
+    rgba(23, 74, 156, 0.18) 100%);
   border: 1px solid var(--color-primary-soft);
   backdrop-filter: var(--blur-md);
   box-shadow: var(--shadow-lg);
@@ -1283,4 +1260,769 @@ body {
   .step-title {
     font-size: var(--font-size-xl);
   }
+}
+
+/* ============================================================
+   NAVIGATION — Mainter brand
+   Sidebar / topbar / content: glassmorphism on brand navy.
+   ============================================================ */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg-gradient);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  flex-shrink: 0;
+  background: rgba(11, 23, 42, 0.85);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-right: 1px solid var(--color-glass-border);
+  padding: var(--space-4) var(--space-5);
+  z-index: 10;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.sidebar-brand .logo {
+  flex-shrink: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-ink-subdued);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-ink);
+}
+
+.sidebar-link--icon {
+  justify-content: center;
+}
+
+.sidebar-link--muted {
+  color: var(--color-ink-muted);
+  cursor: pointer;
+}
+
+.sidebar-link--muted:hover {
+  background: transparent;
+  color: var(--color-ink-subdued);
+}
+
+.sidebar-link--active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.sidebar--collapsed {
+  width: 64px;
+  overflow: hidden;
+}
+
+.sidebar--collapsed .sidebar-brand {
+  justify-content: center;
+  padding: var(--space-3) 0;
+}
+
+.sidebar--collapsed .sidebar-brand .sidebar-text {
+  display: none;
+}
+
+.sidebar--collapsed .sidebar-brand .logo {
+  margin: 0;
+}
+
+.sidebar--collapsed .sidebar-nav {
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar--collapsed .sidebar-link {
+  justify-content: center;
+  padding: var(--space-3);
+  width: 100%;
+}
+
+.sidebar--collapsed .sidebar-link--muted {
+  display: none;
+}
+
+.sidebar--collapsed .sidebar-icon {
+  margin: 0;
+}
+
+.sidebar--collapsed .sidebar-text {
+  display: none;
+}
+
+.sidebar--open {
+  transform: translateX(0);
+}
+
+.content--collapsed {
+  margin-left: 64px;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 9;
+}
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-md);
+  background: var(--color-glass);
+  color: var(--color-ink-subdued);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-glass-hover);
+  color: var(--color-ink);
+}
+
+.sidebar-text {
+  white-space: nowrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo--brandmark {
+  color: var(--color-accent);
+  filter: drop-shadow(0 2px 6px rgba(255, 207, 33, 0.40));
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+  background: rgba(11, 23, 42, 0.85);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.header-banner {
+  height: 36px;
+  width: auto;
+}
+
+.topbar-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.main {
+  flex: 1;
+  padding: var(--space-6) var(--space-8);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.bottom-nav {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--color-glass-border);
+}
+
+.bottom-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-ink-subdued);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bottom-link:hover {
+  background: var(--color-glass);
+  color: var(--color-ink);
+}
+
+.bottom-link--active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   SITE LAYOUT (home page / landing)
+   Uses the design system tokens — no Tailwind utilities.
+   ============================================================ */
+
+.app-site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-gradient);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* neutral/utility fallbacks for the landing page */
+.grid {
+  display: grid;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-5 {
+  gap: 1.25rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-4 {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.px-8 {
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.py-2 {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.py-3 {
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+.py-6 {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.pt-16 {
+  padding-top: var(--space-12);
+}
+
+.pb-24 {
+  padding-bottom: var(--space-14);
+}
+
+.p-5 {
+  padding: var(--space-5);
+}
+
+.p-6 {
+  padding: var(--space-6);
+}
+
+.text-xs {
+  font-size: var(--font-size-xs);
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+}
+
+.text-base {
+  font-size: var(--font-size-base);
+}
+
+.text-lg {
+  font-size: var(--font-size-lg);
+}
+
+.text-ink {
+  color: var(--color-ink);
+}
+
+.text-ink-subdued {
+  color: var(--color-ink-subdued);
+}
+
+.text-ink-muted {
+  color: var(--color-ink-muted);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg-glass {
+  background: var(--color-glass);
+}
+
+.bg-glass-hover {
+  background: var(--color-glass-hover);
+}
+
+.bg-accent-soft {
+  background: var(--color-accent-soft);
+}
+
+.bg-accent-soft\/60 {
+  background: rgba(255, 207, 33, 0.60);
+}
+
+.bg-accent-soft\/40 {
+  background: rgba(255, 207, 33, 0.40);
+}
+
+.bg-gradient-to-br {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* brand gradient utilities */
+.bg-gradient-royal {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-royal-dark) 100%);
+}
+
+.bg-gradient-accent {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+}
+
+.bg-gradient-royal-accent {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-accent) 100%);
+}
+
+.bg-gradient-accent-royal {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-royal) 100%);
+}
+
+/* gradient direction variants */
+.bg-gradient-to-br\.from-royal {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-royal-dark) 100%);
+}
+
+.bg-gradient-to-br\.from-accent {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+}
+
+.bg-gradient-to-r-from-royal-to-accent {
+  background-image: linear-gradient(to right, var(--color-royal) 0%, var(--color-accent) 100%);
+}
+
+.hover\:from-accent-dark:hover {
+  --gradient-from: var(--color-accent-dark);
+}
+
+.hover\:to-accent:hover {
+  --gradient-to: var(--color-accent);
+}
+
+.bg-gradient-to-br\.from-accent-dark {
+  background-image: linear-gradient(135deg, var(--color-accent-dark) 0%, var(--color-royal) 100%);
+}
+
+.bg-gradient-to-r-from-royal-to-accent {
+  background-image: linear-gradient(to right, var(--color-royal) 0%, var(--color-accent) 100%);
+}
+
+.hover\:from-accent-dark:hover {
+  --gradient-from: var(--color-accent-dark);
+}
+
+.hover\:to-accent:hover {
+  --gradient-to: var(--color-accent);
+}
+
+.border-opacity-40 {
+  border-color: rgba(255, 207, 33, 0.40);
+}
+
+.border-opacity-60 {
+  border-color: rgba(255, 207, 33, 0.60);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-accent-soft {
+  box-shadow: 0 8px 24px rgba(255, 207, 33, 0.15);
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ---- brand gradient helpers used by the landing hero ---- */
+
+.bg-gradient-to-br\.from-bg-900 {
+  background-image: linear-gradient(135deg, var(--color-bg-900) 0%, var(--color-bg-800) 100%);
+}
+
+.bg-gradient-to-br\.from-bg-800\/60 {
+  background-image: linear-gradient(135deg, rgba(17, 38, 80, 0.60) 0%, rgba(22, 56, 110, 1) 100%);
+}
+
+.bg-gradient-to-br\.from-royal {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-royal-dark) 100%);
+}
+
+.bg-gradient-to-br\.from-accent {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+}
+
+.bg-clip-text\.text-transparent {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============================================================
+   SITE LAYOUT (home page / landing)
+   Uses the design system tokens — no Tailwind utilities.
+   ============================================================ */
+
+/* fallback for active region / positioned elements */
+.active {
+  position: relative;
+}
+
+/* neutral/utility fallbacks for the landing page */
+.grid {
+  display: grid;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-5 {
+  gap: 1.25rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-4 {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.px-8 {
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.py-2 {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.py-3 {
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+.py-6 {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.pt-16 {
+  padding-top: var(--space-12);
+}
+
+.pb-24 {
+  padding-bottom: var(--space-14);
+}
+
+.p-5 {
+  padding: var(--space-5);
+}
+
+.p-6 {
+  padding: var(--space-6);
+}
+
+.text-xs {
+  font-size: var(--font-size-xs);
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+}
+
+.text-base {
+  font-size: var(--font-size-base);
+}
+
+.text-lg {
+  font-size: var(--font-size-lg);
+}
+
+.text-ink {
+  color: var(--color-ink);
+}
+
+.text-ink-subdued {
+  color: var(--color-ink-subdued);
+}
+
+.text-ink-muted {
+  color: var(--color-ink-muted);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg-glass {
+  background: var(--color-glass);
+}
+
+.bg-glass-hover {
+  background: var(--color-glass-hover);
+}
+
+.bg-accent-soft {
+  background: var(--color-accent-soft);
+}
+
+.bg-accent-soft\/60 {
+  background: rgba(255, 207, 33, 0.6);
+}
+
+.bg-accent-soft\/40 {
+  background: rgba(255, 207, 33, 0.4);
+}
+
+.bg-gradient-to-br {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.bg-gradient-to-r {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.bg-gradient-royal {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-royal-dark) 100%);
+}
+
+.bg-gradient-accent {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+}
+
+.bg-gradient-royal-accent {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-accent) 100%);
+}
+
+.bg-gradient-accent-royal {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-royal) 100%);
+}
+
+.from-royal {
+  --gradient-from: var(--color-royal);
+}
+
+.from-accent {
+  --gradient-from: var(--color-accent);
+}
+
+.from-accent-dark {
+  --gradient-from: var(--color-accent-dark);
+}
+
+.to-royal {
+  --gradient-to: var(--color-royal);
+}
+
+.to-accent {
+  --gradient-to: var(--color-accent);
+}
+
+.to-accent-dark {
+  --gradient-to: var(--color-accent-dark);
+}
+
+.to-primary-dark {
+  --gradient-to: var(--color-royal-dark);
+}
+
+/* brand gradient variants used inline */
+.bg-gradient-to-br\.from-royal {
+  background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-royal-dark) 100%);
+}
+
+.bg-gradient-to-br\.from-accent {
+  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+}
+
+.bg-gradient-to-r-from-royal-to-accent {
+  background-image: linear-gradient(to right, var(--color-royal) 0%, var(--color-accent) 100%);
+}
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.border-glass-border {
+  border-color: var(--color-glass-border);
+}
+
+.border-accent-soft {
+  border-color: var(--color-accent-soft);
+}
+
+.border-opacity-40 {
+  border-color: rgba(255, 207, 33, 0.4);
+}
+
+.border-opacity-60 {
+  border-color: rgba(255, 207, 33, 0.6);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-accent-soft {
+  box-shadow: 0 8px 24px rgba(255, 207, 33, 0.15);
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }

@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from '@tanstack/react-router';
 import { useState } from 'react';
+import Logo from '~/components/Logo';
 
 const ICONS: Record<string, string> = {
   '/_authenticated/dashboard': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>',
@@ -37,7 +38,8 @@ export default function Layout() {
     <div className="app">
       <aside className={`sidebar ${mobileOpen ? 'sidebar--open' : ''} ${collapsed ? 'sidebar--collapsed' : ''}`}>
         <div className="sidebar-brand">
-          <img src="/logomainter.png" alt="Mainter" className={`logo ${collapsed ? 'logo--brandmark' : ''}`} />
+          <Logo size={collapsed ? 'sm' : 'md'} />
+          {!collapsed && <span className="sidebar-text">Mainter</span>}
         </div>
         <nav className="sidebar-nav">
           <NavItem to="/_authenticated/dashboard" label="Tablero" collapsed={collapsed} onClick={handleNavClick} />
@@ -49,14 +51,14 @@ export default function Layout() {
           <NavItem to="/_authenticated/follow-ups" label="Seguimientos" collapsed={collapsed} onClick={handleNavClick} />
           <NavItem to="/_authenticated/inbox" label="Bandeja" collapsed={collapsed} onClick={handleNavClick} />
           <Link to="/login" className={`sidebar-link ${collapsed ? 'sidebar-link--icon' : ''} sidebar-link--muted`} title="Salir" onClick={handleNavClick}>
-            {collapsed ? <span className="sidebar-icon" dangerouslySetInnerHTML={{ __html: '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" y1=\"12\" x2=\"9\" y2=\"12\"/></svg>' }} /> : <span className="sidebar-text">Salir</span>}
+            {collapsed ? <span className="sidebar-icon" dangerouslySetInnerHTML={{ __html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>' }} /> : <span className="sidebar-text">Salir</span>}
           </Link>
         </nav>
         <button className="sidebar-toggle" onClick={() => setCollapsed((v) => !v)} aria-label={collapsed ? 'Expandir menú' : 'Contraer menú'}>
           {collapsed ? (
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           ) : (
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
           )}
         </button>
       </aside>
@@ -64,7 +66,7 @@ export default function Layout() {
       <div className={`content ${collapsed ? 'content--collapsed' : ''}`}>
         <header className="topbar">
           <div className="topbar-left">
-            <img src="/mainter-header.webp" alt="Mainter" className="header-banner" />
+            <Logo size="lg" />
           </div>
           <button className="topbar-menu" onClick={() => setMobileOpen(true)} aria-label="Abrir menú">☰</button>
         </header>
