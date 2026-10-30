@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import React from 'react';
 
 const BENTO_CARDS = [
   {
@@ -51,11 +51,8 @@ export default function BentoGrid() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-6xl mx-auto px-4 md:px-8">
       {BENTO_CARDS.map((item, i) => (
-        <motion.div
+        <div
           key={item.title}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.05 }}
           className={`rounded-2xl bg-gradient-to-br ${item.gradient} ${item.border} p-5 md:p-6 backdrop-blur-sm border shadow-lg`}
         >
           <div className="flex items-center gap-3">
@@ -63,7 +60,7 @@ export default function BentoGrid() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-ink">{item.title}</h3>
           </div>
           <p className="mt-2 text-xs md:text-sm text-ink-subdued leading-relaxed">{item.desc}</p>
-        </motion.div>
+        </div>
       ))}
     </div>
   );
